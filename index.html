@@ -97,9 +97,10 @@
             <div class="hint">Dùng cho hồ/ao/hầm dạng chữ nhật. Công thức phủ: (Dài + 2×Sâu) × (Rộng + 2×Sâu).</div>
           </div>
           <div>
-            <label for="thickness">Độ dày bạt</label>
-            <select id="thickness"></select>
-            <div class="hint">Giá tự đổi theo diện tích. Bảo hành 2–5 năm tùy độ dày.</div>
+            <label for=\"thickness\">Độ dày bạt</label>
+            <select id=\"thickness\" disabled style=\"background:#1a2420;color:#bbb\"><option>Hệ thống tự chọn theo diện tích</option></select>
+            <div class=\"hint\">Độ dày sẽ được tính tự động, không cần chọn.</div>
+          </div>
           </div>
         </div>
         <div class="row">
@@ -194,6 +195,7 @@
       o.value=i; o.textContent=`${d.label} — bảo hành ${d.warranty}`;
       sel.appendChild(o);
     });
+    try{ if(sel.hasAttribute('disabled')) sel.removeAttribute('disabled'); }catch(e){}
 
     const tbody = $('#priceTable');
     function renderTable(){
