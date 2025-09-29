@@ -1,298 +1,597 @@
+Đây là file HTML duy nhất chứa toàn bộ HTML, CSS và JavaScript để tạo trang web tính giá bạt HDPE theo yêu cầu của bạn.
+
+```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Máy tính giá bạt HDPE | Quang Phúc</title>
-  <style>
-    :root{
-      --bg:#08140e;          /* nền tối xanh rêu theo logo */
-      --card:#0d1b15;        /* xanh đậm */
-      --ink:#f1f5f9;         /* text */
-      --muted:#9fb3a7;       /* phụ xanh xám */
-      --brand:#16a34a;       /* xanh lá logo */
-      --brand2:#f59e0b;      /* vàng cam logo */
-      --accent:#22c55e;      /* nhấn */
-      --danger:#ef4444;
-      --ring: 0 0 0 3px rgba(34,197,94,.35);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      background: radial-gradient(1200px 600px at 20% -10%,rgba(22,163,74,.18),transparent),
-                  radial-gradient(1000px 500px at 120% 10%,rgba(245,158,11,.15),transparent),
-                  var(--bg);
-      color:var(--ink);
-    }
-    .wrap{max-width:1100px;margin:auto;padding:24px}
-    header{display:flex;gap:18px;align-items:center;margin-bottom:22px}
-    .logo{width:48px;height:48px;border-radius:12px;object-fit:contain;background:#ffffff;padding:6px;box-shadow:0 6px 30px rgba(22,163,74,.35)}
-    h1{font-size:clamp(22px,3vw,30px);margin:0;letter-spacing:.2px}
-    .subtitle{color:var(--muted);font-size:14px}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tính Giá Bạt HDPE - Quang Phúc</title>
+    <style>
+        /* 1) Thương hiệu & Giao diện */
+        :root {
+            --color-primary: #16a34a; /* Xanh lá */
+            --color-secondary: #f59e0b; /* Vàng cam */
+            --color-bg-dark: #1f3d3d; /* Nền tối xanh rêu */
+            --color-text-light: #f0fdf4;
+            --color-bg-light: #ffffff;
+            --color-card-bg: #2a5252;
+            --color-input-bg: #376a6a;
+            --color-border: #4a8080;
+        }
 
-    .grid{display:grid;grid-template-columns: 1.1fr .9fr;gap:22px}
-    @media (max-width:900px){.grid{grid-template-columns:1fr}}
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-light);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px 10px;
+        }
 
-    .card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));
-          border:1px solid rgba(148,163,184,.2);border-radius:18px;padding:18px 18px 16px;box-shadow:0 12px 30px rgba(2,6,23,.45)}
-    .card h2{font-size:18px;margin:2px 0 14px}
-    .row{display:grid;grid-template-columns: 1fr 1fr;gap:12px}
-    @media (max-width:720px){.row{grid-template-columns:1fr}}
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--color-card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
 
-    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
-    input,select{width:100%;border:1px solid rgba(148,163,184,.25);background:#0b1327;color:var(--ink);
-      padding:12px 12px;border-radius:12px;outline:none;transition:.15s}
-    input:focus,select:focus{box-shadow:var(--ring);border-color:#38bdf8}
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
 
-    .hint{font-size:12px;color:var(--muted);margin-top:4px}
-    .actions{display:flex;gap:12px;align-items:center;margin-top:10px}
-    .btn{border:0;cursor:pointer;border-radius:12px;padding:12px 14px;font-weight:600}
-    .btn-primary{background:linear-gradient(135deg,var(--brand),#16a34a);color:#07130a}
-    .btn-ghost{background:transparent;color:var(--ink);border:1px dashed rgba(148,163,184,.35)}
+        header h1 {
+            color: var(--color-secondary);
+            font-size: 1.8rem;
+            margin-top: 10px;
+        }
 
-    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-    @media (max-width:600px){.stats{grid-template-columns:1fr}}
-    .stat{background:#0b1327;border:1px solid rgba(148,163,184,.25);border-radius:14px;padding:12px}
-    .stat .k{color:var(--muted);font-size:12px}
-    .stat .v{font-size:20px;font-weight:700;margin-top:4px}
+        .logo {
+            max-width: 150px;
+            height: auto;
+            border-radius: 8px;
+        }
 
-    table{width:100%;border-collapse:collapse;margin-top:10px}
-    th,td{padding:10px;border-bottom:1px solid rgba(148,163,184,.18);text-align:left;font-size:14px}
-    th{color:var(--muted);font-weight:600}
-    .right{text-align:right}
+        /* Form Styling */
+        .form-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
 
-    .note{font-size:12px;color:var(--muted);margin-top:10px}
-    footer{margin-top:24px;font-size:12px;color:var(--muted);text-align:center}
-  </style>
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--color-primary);
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            background-color: var(--color-input-bg);
+            color: var(--color-text-light);
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="number"]:focus,
+        input[type="text"]:focus,
+        select:focus {
+            border-color: var(--color-secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.5);
+        }
+
+        /* Nút */
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, opacity 0.3s;
+        }
+
+        #calculate-btn {
+            background-color: var(--color-primary);
+            color: var(--color-bg-light);
+        }
+
+        #calculate-btn:hover {
+            background-color: #15803d;
+        }
+
+        #reset-btn {
+            background-color: #6b7280;
+            color: var(--color-bg-light);
+        }
+
+        #reset-btn:hover {
+            background-color: #4b5563;
+        }
+
+        #send-quote-btn {
+            background-color: var(--color-secondary);
+            color: var(--color-bg-dark);
+        }
+
+        #send-quote-btn:hover {
+            background-color: #d97706;
+        }
+
+        /* Tùy chọn nâng cao */
+        details {
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #2a5252;
+        }
+
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--color-secondary);
+            padding: 5px 0;
+            outline: none;
+        }
+
+        .advanced-options {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .advanced-options .form-group {
+            flex: 1;
+        }
+
+        /* 5) Kết quả hiển thị */
+        #results {
+            margin-top: 30px;
+            border-top: 2px dashed var(--color-primary);
+            padding-top: 20px;
+            display: none; /* Ẩn cho đến khi tính toán */
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background-color: #1f3d3d;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .stat-card .label {
+            font-size: 0.9rem;
+            color: var(--color-primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-card .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--color-secondary);
+        }
+
+        .note {
+            font-size: 0.85rem;
+            color: #ccc;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Bảng giá tham chiếu */
+        .price-table-container {
+            margin-top: 30px;
+            overflow-x: auto;
+        }
+
+        .price-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+            font-size: 0.9rem;
+        }
+
+        .price-table th, .price-table td {
+            border: 1px solid var(--color-border);
+            padding: 10px 8px;
+            text-align: center;
+        }
+
+        .price-table th {
+            background-color: var(--color-primary);
+            color: var(--color-bg-dark);
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+        }
+
+        .price-table td:first-child, .price-table td:nth-child(2) {
+            text-align: left;
+        }
+
+        .price-table tbody tr:nth-child(even) {
+            background-color: #214343;
+        }
+
+        .price-table tbody tr:hover {
+            background-color: #376a6a;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .advanced-options {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <img class="logo" src="Logo.jpg" alt="Quang Phúc" />
-      <div>
-        <h1>Máy tính giá bạt HDPE – Quang Phúc</h1>
-        <div class="subtitle">Nhập kích thước công trình, chọn độ dày bạt. Điền SĐT + địa chỉ để nhận báo giá chính xác và phí vận chuyển.</div>
-      </div>
-    </header>
+    <div class="container">
+        <header>
+            <img src="Logo.jpg" alt="Logo Quang Phúc" class="logo">
+            <h1>CÔNG CỤ ƯỚC TÍNH GIÁ BẠT HDPE</h1>
+        </header>
 
-    <div class="grid">
-      <!-- INPUTS -->
-      <section class="card" aria-labelledby="form-title">
-        <h2 id="form-title">Thông số công trình</h2>
-        <div class="row">
-          <div>
-            <label for="length">Chiều dài (m)</label>
-            <input id="length" type="number" step="0.01" min="0.1" value="20" />
-          </div>
-          <div>
-            <label for="width">Chiều rộng (m)</label>
-            <input id="width" type="number" step="0.01" min="0.1" value="10" />
-          </div>
-        </div>
-        <div class="row">
-          <div>
-            <label for="depth">Độ sâu (m)</label>
-            <input id="depth" type="number" step="0.01" min="0.1" value="3" />
-            <div class="hint">Dùng cho hồ/ao/hầm dạng chữ nhật. Công thức phủ: (Dài + 2×Sâu) × (Rộng + 2×Sâu).</div>
-          </div>
-          <div>
-            <label for=\"thickness\">Độ dày bạt</label>
-            <select id=\"thickness\" disabled style=\"background:#1a2420;color:#bbb\"><option>Hệ thống tự chọn theo diện tích</option></select>
-            <div class=\"hint\">Độ dày sẽ được tính tự động, không cần chọn.</div>
-          </div>
-          </div>
-        </div>
-        <div class="row">
-          <div>
-            <label for="phone">Số điện thoại</label>
-            <input id="phone" type="tel" placeholder="VD: 0908 38 72 38" />
-          </div>
-          <div>
-            <label for="address">Địa chỉ giao hàng/thi công</label>
-            <input id="address" type="text" placeholder="Số nhà, xã/phường, huyện, tỉnh" />
-          </div>
-        </div>
-        <details style="margin-top:10px">
-          <summary style="cursor:pointer;color:var(--accent)">Tùy chọn nâng cao</summary>
-          <div class="row" style="margin-top:10px">
-            <div>
-              <label for="overlap">Mép chồng mí/neo biên (m)</label>
-              <input id="overlap" type="number" step="0.05" min="0" value="0.3" />
-              <div class="hint">Cộng thêm mỗi cạnh để đủ chừa mép hàn/neo.</div>
+        <section class="form-section">
+            <div class="form-group">
+                <label for="length">Chiều dài hồ (m)</label>
+                <input type="number" id="length" value="20" min="0.1" step="0.01" required>
             </div>
-            <div>
-              <label for="waste">Hệ số hao hụt (%)</label>
-              <input id="waste" type="number" step="1" min="0" value="5" />
-              <div class="hint">Dự phòng cắt ghép, địa hình gồ ghề.</div>
+            <div class="form-group">
+                <label for="width">Chiều rộng hồ (m)</label>
+                <input type="number" id="width" value="10" min="0.1" step="0.01" required>
             </div>
-          </div>
+            <div class="form-group">
+                <label for="depth">Độ sâu hồ (m)</label>
+                <input type="number" id="depth" value="3" min="0.1" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="thickness">Độ dày bạt (mm)</label>
+                <select id="thickness">
+                    <option value="0.2">0.2 mm</option>
+                    <option value="0.3">0.3 mm</option>
+                    <option value="0.4">0.4 mm</option>
+                    <option value="0.5">0.5 mm</option>
+                    <option value="0.75">0.75 mm</option>
+                    <option value="1.0" selected>1.0 mm</option>
+                    <option value="1.5">1.5 mm</option>
+                    <option value="2.0">2.0 mm</option>
+                </select>
+            </div>
+        </section>
+
+        <details>
+            <summary>Tùy chọn nâng cao (Mép chồng mí/neo biên & Hao hụt)</summary>
+            <div class="advanced-options">
+                <div class="form-group">
+                    <label for="overlap">Mép chồng mí/neo biên (m)</label>
+                    <input type="number" id="overlap" value="0.3" min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="loss-rate">Hệ số hao hụt (%)</label>
+                    <input type="number" id="loss-rate" value="5" min="0" step="0.01">
+                </div>
+            </div>
         </details>
+
+        <section class="form-section" style="margin-top: 20px;">
+            <div class="form-group">
+                <label for="phone">Số điện thoại</label>
+                <input type="text" id="phone" placeholder="0xxxxxxxxx hoặc +84xxxxxxxx" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Địa chỉ</label>
+                <input type="text" id="address" placeholder="Địa chỉ giao hàng/lắp đặt" required>
+            </div>
+        </section>
+
         <div class="actions">
-          <button class="btn btn-primary" id="calc">Tính giá</button>
-          <button class="btn btn-ghost" id="reset">Nhập lại</button>
-          <button class="btn btn-primary" id="sendQuote" style="background:linear-gradient(135deg,var(--brand),var(--brand2));color:#06210b">Gửi yêu cầu báo giá</button>
-        </div>
-      </section>
-
-      <!-- OUTPUTS -->
-      <section class="card" aria-labelledby="result-title">
-        <h2 id="result-title">Kết quả ước tính</h2>
-        <div class="stats">
-          <div class="stat"><div class="k">Diện tích phủ (m²)</div><div class="v" id="area">—</div></div>
-          <div class="stat"><div class="k">Bậc giá áp dụng</div><div class="v" id="tier">—</div></div>
-          <div class="stat"><div class="k">Đơn giá (đ/m²)</div><div class="v" id="unitPrice">—</div></div>
-          <div class="stat"><div class="k">Thành tiền (đ)</div><div class="v" id="total">—</div></div>
+            <button id="calculate-btn">Tính giá</button>
+            <button id="reset-btn">Nhập lại (Reset)</button>
+            <button id="send-quote-btn">Gửi yêu cầu báo giá</button>
         </div>
 
-        <table aria-label="Chi tiết giá">
-          <thead>
-            <tr>
-              <th>Độ dày</th>
-              <th>Bảo hành</th>
-              <th class="right">&lt; 80 m²</th>
-              <th class="right">&lt; 500 m²</th>
-              <th class="right">&lt; 1.000 m²</th>
-              <th class="right">&lt; 2.000 m²</th>
-              <th class="right">&lt; 10.000 m²</th>
-            </tr>
-          </thead>
-          <tbody id="priceTable"></tbody>
-        </table>
-        <div class="note">Lưu ý: Đây là ước tính tham khảo dựa trên bảng giá chuẩn. Báo giá thực tế có thể thay đổi theo địa hình, vận chuyển và thi công.</div>
-      </section>
+        <div id="results">
+            <h2>KẾT QUẢ ƯỚC TÍNH</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">Độ dày bạt / Bảo hành</div>
+                    <div class="value" id="res-warranty">1.0 mm / 5 năm</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Diện tích phủ (m²)</div>
+                    <div class="value" id="res-area">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Bậc giá áp dụng</div>
+                    <div class="value" id="res-tier">Chưa xác định</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Đơn giá (đ/m²)</div>
+                    <div class="value" id="res-unit-price">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Thành tiền (VNĐ)</div>
+                    <div class="value" id="res-total-price">0</div>
+                </div>
+            </div>
+
+            <p class="note">(*) Đây là ước tính tham khảo, giá thực tế có thể thay đổi theo thời điểm, địa điểm giao hàng, và dịch vụ thi công. Vui lòng **Gửi yêu cầu báo giá** để nhận báo giá chính xác.</p>
+        </div>
+
+        <div class="price-table-container">
+            <h2>BẢNG GIÁ THAM CHIẾU (VNĐ/m²)</h2>
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>Độ dày</th>
+                        <th>Bảo hành</th>
+                        <th>&lt; 80 m²</th>
+                        <th>&lt; 500 m²</th>
+                        <th>&lt; 1.000 m²</th>
+                        <th>&lt; 2.000 m²</th>
+                        <th>&lt; 10.000 m²</th>
+                    </tr>
+                </thead>
+                <tbody id="price-table-body">
+                    </tbody>
+            </table>
+        </div>
     </div>
 
-    <footer>
-      © 2025 Quang Phúc • Hotline: <a href="tel:0908387238" style="color:var(--ink);text-decoration:underline">0908 38 72 38</a> • Email: <a href="mailto:sales@quangphuc.vn" style="color:var(--ink);text-decoration:underline">sales@quangphuc.vn</a>
-    </footer>
-  </div>
+    <script>
+        // 4) Bảng giá (đ/m²) & bảo hành
+        const PRICE_DATA = [
+            { code:"0.2",  label:"0.2 mm",  warranty:"2 năm",    m2PerKg:5.41, prices:[12500,10800, 9500, 9000, 8700] },
+            { code:"0.3",  label:"0.3 mm",  warranty:"2 năm",    m2PerKg:3.58, prices:[18800,16300,14400,13500,15000] },
+            { code:"0.4",  label:"0.4 mm",  warranty:"30 tháng", m2PerKg:2.69, prices:[24900,21600,19100,17900,19000] },
+            { code:"0.5",  label:"0.5 mm",  warranty:"3 năm",    m2PerKg:2.15, prices:[29300,26900,23800,22400,22000] },
+            { code:"0.75", label:"0.75 mm", warranty:"5 năm",    m2PerKg:1.43, prices:[44300,40300,33900,33500,32600] },
+            { code:"1.0",  label:"1.0 mm",  warranty:"5 năm",    m2PerKg:1.06, prices:[62100,53820,47670,44700,43500] }, // Đã chỉnh giá 1.0mm
+            { code:"1.5",  label:"1.5 mm",  warranty:"5 năm",    m2PerKg:0.71, prices:[93000,80600,71300,67000,65100] },
+            { code:"2.0",  label:"2.0 mm",  warranty:"5 năm",    m2PerKg:1.25, prices:[124100,107500,95100,89300,86800] },
+        ];
 
-  <script>
-    // ===== DỮ LIỆU GIÁ (đ/m²) & THUỘC TÍNH TỪ BẢNG BÁO GIÁ =====
-    // Tier theo diện tích: [<80, <500, <1000, <2000, <10000]
-    const PRICE_DATA = [
-      { code:"0.2", label:"0.2 mm", warranty:"2 năm", m2PerKg:5.41, prices:[12500,10800,9500,9000,8700] },
-      { code:"0.3", label:"0.3 mm", warranty:"2 năm", m2PerKg:3.58, prices:[18800,16300,14400,13500,15000] },
-      { code:"0.4", label:"0.4 mm", warranty:"30 tháng", m2PerKg:2.69, prices:[24900,21600,19100,17900,19000] },
-      { code:"0.5", label:"0.5 mm", warranty:"3 năm", m2PerKg:2.15, prices:[29300,26900,23800,22400,22000] },
-      { code:"0.75", label:"0.75 mm", warranty:"5 năm", m2PerKg:1.43, prices:[44300,40300,33900,33500,32600] },
-      { code:"1.0", label:"1.0 mm", warranty:"5 năm", m2PerKg:1.06, prices:[62100,53820,41670,44700,43500] },
-      { code:"1.5", label:"1.5 mm", warranty:"5 năm", m2PerKg:0.71, prices:[93000,80600,71300,67000,65100] },
-      { code:"2.0", label:"2.0 mm", warranty:"5 năm", m2PerKg:1.25, prices:[124100,107500,95100,89300,86800] },
-    ];
+        // Mảng các bậc diện tích để xác định bậc giá
+        const TIER_THRESHOLDS = [80, 500, 1000, 2000, 10000]; // Ngưỡng: <80, <500, <1000, <2000, <10000
 
-    const TIER_LABELS = ["< 80 m²","< 500 m²","< 1.000 m²","< 2.000 m²","< 10.000 m²"];
+        // 7) Định dạng tiền tệ
+        const formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+            minimumFractionDigits: 0,
+        });
 
-    // ===== TIỆN ÍCH =====
-    const VND = new Intl.NumberFormat('vi-VN');
-    const $ = (q)=>document.querySelector(q);
+        // Hàm định dạng số thông thường
+        const numberFormatter = new Intl.NumberFormat('vi-VN', {
+            maximumFractionDigits: 2
+        });
 
-    // Build dropdown & table
-    const sel = $('#thickness');
-    PRICE_DATA.forEach((d,i)=>{
-      const o = document.createElement('option');
-      o.value=i; o.textContent=`${d.label} — bảo hành ${d.warranty}`;
-      sel.appendChild(o);
-    });
-    try{ if(sel.hasAttribute('disabled')) sel.removeAttribute('disabled'); }catch(e){}
+        // Hàm kiểm tra hợp lệ SĐT
+        function isValidPhoneNumber(phone) {
+            if (!phone) return false;
+            // Kiểm tra SĐT VN: bắt đầu +84 hoặc 0, có độ dài 9-11 chữ số (không tính +84)
+            const phoneRegex = /^((\+84|0)[3|5|7|8|9|2|4|6]{1}\d{8,9})$/; // Ví dụ: +84912345678 hoặc 0912345678
+            return phoneRegex.test(phone.replace(/\s/g, ''));
+        }
 
-    const tbody = $('#priceTable');
-    function renderTable(){
-      tbody.innerHTML = PRICE_DATA.map(d=>`
-        <tr>
-          <td>${d.label}</td>
-          <td>${d.warranty}</td>
-          ${d.prices.map(p=>`<td class="right">${VND.format(p)}</td>`).join('')}
-        </tr>`).join('');
-    }
-    renderTable();
+        // 3) Công thức tính & Chọn bậc giá
+        function calculatePrice() {
+            // Lấy giá trị từ form
+            const length = parseFloat(document.getElementById('length').value);
+            const width = parseFloat(document.getElementById('width').value);
+            const depth = parseFloat(document.getElementById('depth').value);
+            const overlap = parseFloat(document.getElementById('overlap').value);
+            const lossRate = parseFloat(document.getElementById('loss-rate').value);
+            const thicknessCode = document.getElementById('thickness').value;
 
-    function pickTier(area){
-      if(area < 80) return 0;
-      if(area < 500) return 1;
-      if(area < 1000) return 2;
-      if(area < 2000) return 3;
-      return 4; // < 10.000 m²
-    }
+            // Kiểm tra dữ liệu bắt buộc
+            if (isNaN(length) || isNaN(width) || isNaN(depth) || length <= 0.1 || width <= 0.1 || depth <= 0.1) {
+                alert("Vui lòng nhập Chiều dài, Chiều rộng và Độ sâu hợp lệ (tối thiểu 0.1 m)!");
+                document.getElementById('results').style.display = 'none';
+                return null;
+            }
 
-    function calc(){
-      const L = parseFloat($('#length').value)||0;
-      const W = parseFloat($('#width').value)||0;
-      const D = parseFloat($('#depth').value)||0;
-      const O = Math.max(0, parseFloat($('#overlap').value)||0);
-      const wastePct = Math.max(0, parseFloat($('#waste').value)||0);
+            // Lấy dữ liệu giá theo độ dày
+            const selectedPriceData = PRICE_DATA.find(data => data.code === thicknessCode);
+            if (!selectedPriceData) {
+                alert("Lỗi: Không tìm thấy dữ liệu giá cho độ dày này.");
+                document.getElementById('results').style.display = 'none';
+                return null;
+            }
 
-      if(L<=0||W<=0||D<=0){
-        alert('Vui lòng nhập đầy đủ kích thước dương (>0).');
-        return;
-      }
+            // Tính Diện tích phủ phẳng (hồ chữ nhật)
+            // Area = (Dài + 2* Sâu + 2* Mép) * (Rộng + 2* Sâu + 2* Mép)
+            const L_phu = length + 2 * depth + 2 * overlap;
+            const W_phu = width + 2 * depth + 2 * overlap;
+            let area = L_phu * W_phu;
 
-      // Diện tích phủ phẳng theo công thức triển khai tấm: (L + 2D + 2O) × (W + 2D + 2O)
-      let area = (L + 2*D + 2*O) * (W + 2*D + 2*O);
-      area *= (1 + wastePct/100); // cộng hao hụt
+            // Cộng hao hụt
+            area *= (1 + lossRate / 100);
+            
+            // Làm tròn diện tích về 2 số thập phân
+            const finalArea = Math.round(area * 100) / 100;
 
-      const thick = PRICE_DATA[ parseInt($('#thickness').value,10) ];
-      const tier = pickTier(area);
-      const unit = thick.prices[tier];
-      const total = area * unit;
+            // Chọn bậc giá theo diện tích
+            let priceTierIndex = -1;
+            let tierLabel = '';
 
-      // Đổ ra UI
-      $('#area').textContent = VND.format(area.toFixed(2));
-      $('#tier').textContent = TIER_LABELS[tier];
-      $('#unitPrice').textContent = VND.format(unit);
-      $('#total').textContent = VND.format(Math.round(total));
-    }
+            for (let i = 0; i < TIER_THRESHOLDS.length; i++) {
+                if (finalArea < TIER_THRESHOLDS[i]) {
+                    priceTierIndex = i;
+                    tierLabel = `< ${numberFormatter.format(TIER_THRESHOLDS[i])} m²`;
+                    break;
+                }
+            }
 
-    $('#calc').addEventListener('click', calc);
-    $('#reset').addEventListener('click', ()=>{
-      ['length','width','depth','overlap','waste'].forEach(id=>$("#"+id).value = {length:20,width:10,depth:3,overlap:.3,waste:5}[id]);
-      $('#thickness').value = 5; // 1.0mm phổ biến
-      ['area','tier','unitPrice','total'].forEach(id=>$('#'+id).textContent='—');
-    });
+            // Nếu vượt ngưỡng cao nhất, vẫn lấy giá bậc cao nhất (index cuối cùng)
+            if (priceTierIndex === -1) {
+                priceTierIndex = TIER_THRESHOLDS.length - 1;
+                tierLabel = `≥ ${numberFormatter.format(TIER_THRESHOLDS[TIER_THRESHOLDS.length - 2])} m²`; // Sử dụng ngưỡng trước đó để thể hiện >=
+            }
 
-    // mặc định: 1.0mm
-    $('#thickness').value = 5;
+            const unitPrice = selectedPriceData.prices[priceTierIndex];
+            const totalPrice = finalArea * unitPrice;
 
-    // Validate số điện thoại (không dùng regex có backslash để an toàn)
-    function cleanDigitsPlus(s){var t='';for(var i=0;i<s.length;i++){var c=s[i];if('0123456789+'.indexOf(c)>=0) t+=c;}return t;}
-    function phoneValid(v){var p=cleanDigitsPlus(v.trim()); if(p.indexOf('+84')===0){return p.length>=11 && p.length<=14;} if(p.indexOf('0')===0){return p.length>=9 && p.length<=12;} return false;}
+            // Hiển thị kết quả
+            document.getElementById('res-warranty').textContent = `${selectedPriceData.label} / ${selectedPriceData.warranty}`;
+            document.getElementById('res-area').textContent = `${numberFormatter.format(finalArea)} m²`;
+            document.getElementById('res-tier').textContent = tierLabel;
+            document.getElementById('res-unit-price').textContent = formatter.format(unitPrice);
+            document.getElementById('res-total-price').textContent = formatter.format(totalPrice);
+            document.getElementById('results').style.display = 'block';
+            
+            return {
+                length, width, depth, overlap, lossRate,
+                thicknessLabel: selectedPriceData.label,
+                finalArea, tierLabel, unitPrice, totalPrice,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value
+            };
+        }
 
-    function sendQuote(){
-      if($('#area').textContent==='—') calc();
-      var L=$('#length').value, W=$('#width').value, D=$('#depth').value, O=$('#overlap').value, w=$('#waste').value;
-      var thick=PRICE_DATA[parseInt($('#thickness').value,10)].label;
-      var area=$('#area').textContent, tier=$('#tier').textContent, unit=$('#unitPrice').textContent, total=$('#total').textContent;
-      var phone=$('#phone').value.trim();
-      var address=$('#address').value.trim();
-      if(!phoneValid(phone)) { alert('Vui lòng nhập số điện thoại hợp lệ.'); return; }
-      if(!address) { alert('Vui lòng nhập địa chỉ nhận hàng/thi công.'); return; }
-      var msg = 'Yêu cầu báo giá bạt HDPE'+'
-'
-              + 'Khách hàng: ' + phone + '
-'
-              + 'Địa chỉ: ' + address + '
-'
-              + 'Kích thước: ' + L + 'm x ' + W + 'm x sâu ' + D + 'm (chừa mép ' + O + 'm, hao hụt ' + w + '%)' + '
-'
-              + 'Độ dày: ' + thick + '
-'
-              + 'Diện tích phủ: ' + area + ' m2' + '
-'
-              + 'Bậc giá: ' + tier + '
-'
-              + 'Đơn giá: ' + unit + ' đ/m2' + '
-'
-              + 'Thành tiền: ' + total + ' đ';
-      try{ navigator.clipboard.writeText(msg); }catch(e){}
-      var subject = encodeURIComponent('Yêu cầu báo giá bạt HDPE');
-      var body = encodeURIComponent(msg + '
+        // 7) Reset về giá trị mặc định
+        function resetForm() {
+            document.getElementById('length').value = '20';
+            document.getElementById('width').value = '10';
+            document.getElementById('depth').value = '3';
+            document.getElementById('thickness').value = '1.0';
+            document.getElementById('overlap').value = '0.3';
+            document.getElementById('loss-rate').value = '5';
+            document.getElementById('phone').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('results').style.display = 'none';
+        }
 
-Nguồn: Máy tính giá bạt HDPE - Quang Phúc');
-      window.location.href = 'mailto:sales@quangphuc.vn?subject='+subject+'&body='+body;
-    }
+        // 6) Hành động “Gửi yêu cầu báo giá”
+        function sendQuoteRequest() {
+            const calculationData = calculatePrice();
 
-    document.getElementById('sendQuote').addEventListener('click', sendQuote);
-  </script>
+            if (!calculationData) {
+                // Đã có alert trong calculatePrice
+                return;
+            }
+
+            if (!calculationData.phone || !calculationData.address) {
+                alert("Vui lòng nhập Số điện thoại và Địa chỉ để gửi yêu cầu báo giá!");
+                return;
+            }
+
+            if (!isValidPhoneNumber(calculationData.phone)) {
+                 alert("Số điện thoại không hợp lệ. Vui lòng nhập SĐT Việt Nam hợp lệ (0xxxxxxxxx hoặc +84xxxxxxxx).");
+                return;
+            }
+
+            const bodyContent = `
+YÊU CẦU BÁO GIÁ BẠT HDPE - QUANG PHÚC
+---
+THÔNG TIN KHÁCH HÀNG:
+SĐT: ${calculationData.phone}
+Địa chỉ: ${calculationData.address}
+
+THÔNG SỐ TÍNH TOÁN:
+- Kích thước hồ (D x R x S): ${numberFormatter.format(calculationData.length)}m x ${numberFormatter.format(calculationData.width)}m x ${numberFormatter.format(calculationData.depth)}m
+- Mép neo biên: ${numberFormatter.format(calculationData.overlap)}m
+- Hệ số hao hụt: ${numberFormatter.format(calculationData.lossRate)}%
+- Độ dày bạt: ${calculationData.thicknessLabel}
+
+KẾT QUẢ ƯỚC TÍNH:
+- Diện tích phủ (có hao hụt): ${numberFormatter.format(calculationData.finalArea)} m²
+- Bậc giá áp dụng: ${calculationData.tierLabel}
+- Đơn giá: ${formatter.format(calculationData.unitPrice)}/m²
+- Thành tiền ước tính: ${formatter.format(calculationData.totalPrice)}
+
+Ghi chú khác: (Điền thêm yêu cầu của quý khách)
+            `.trim();
+            
+            // Copy nội dung vào clipboard
+            navigator.clipboard.writeText(bodyContent).then(() => {
+                // Mở email
+                const email = 'sales@quangphuc.vn';
+                const subject = encodeURIComponent('Yêu cầu báo giá bạt HDPE');
+                const body = encodeURIComponent(bodyContent);
+                window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+            }).catch(err => {
+                alert(`Không thể tự động copy nội dung báo giá. Vui lòng copy nội dung sau và dán vào email:
+                
+${bodyContent}`);
+                // Vẫn mở email (không có nội dung body)
+                const email = 'sales@quangphuc.vn';
+                const subject = encodeURIComponent('Yêu cầu báo giá bạt HDPE');
+                window.location.href = `mailto:${email}?subject=${subject}`;
+            });
+        }
+
+        // 5) Bảng giá tham chiếu
+        function renderPriceTable() {
+            const tbody = document.getElementById('price-table-body');
+            let html = '';
+
+            PRICE_DATA.forEach(item => {
+                html += `<tr>
+                    <td>${item.label}</td>
+                    <td>${item.warranty}</td>
+                    ${item.prices.map(price => `<td>${formatter.format(price)}</td>`).join('')}
+                </tr>`;
+            });
+            tbody.innerHTML = html;
+        }
+
+        // Khởi tạo và gắn sự kiện
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPriceTable();
+
+            document.getElementById('calculate-btn').addEventListener('click', calculatePrice);
+            document.getElementById('reset-btn').addEventListener('click', resetForm);
+            document.getElementById('send-quote-btn').addEventListener('click', sendQuoteRequest);
+
+            // Gán giá trị mặc định cho lần đầu tiên tải trang
+            resetForm();
+        });
+    </script>
 </body>
 </html>
+```
