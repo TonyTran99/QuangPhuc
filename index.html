@@ -6,27 +6,28 @@
   <title>Máy tính giá bạt HDPE | Quang Phúc</title>
   <style>
     :root{
-      --bg:#0b1220;          /* nền tối sang trọng */
-      --card:#0f172a;        /* slate-900 */
-      --ink:#e5e7eb;         /* text */
-      --muted:#9aa4b2;       /* phụ */
-      --brand:#22c55e;       /* xanh lá */
-      --accent:#38bdf8;      /* xanh dương */
+      --bg:#08140e;          /* nền tối xanh rêu theo logo */
+      --card:#0d1b15;        /* xanh đậm */
+      --ink:#f1f5f9;         /* text */
+      --muted:#9fb3a7;       /* phụ xanh xám */
+      --brand:#16a34a;       /* xanh lá logo */
+      --brand2:#f59e0b;      /* vàng cam logo */
+      --accent:#22c55e;      /* nhấn */
       --danger:#ef4444;
-      --ring: 0 0 0 3px rgba(56,189,248,.35);
+      --ring: 0 0 0 3px rgba(34,197,94,.35);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      background: radial-gradient(1200px 600px at 20% -10%,rgba(34,197,94,.15),transparent),
-                  radial-gradient(1000px 500px at 120% 10%,rgba(56,189,248,.12),transparent),
+      background: radial-gradient(1200px 600px at 20% -10%,rgba(22,163,74,.18),transparent),
+                  radial-gradient(1000px 500px at 120% 10%,rgba(245,158,11,.15),transparent),
                   var(--bg);
       color:var(--ink);
     }
     .wrap{max-width:1100px;margin:auto;padding:24px}
     header{display:flex;gap:18px;align-items:center;margin-bottom:22px}
-    .logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--accent));box-shadow:0 6px 30px rgba(34,197,94,.35)}
+    .logo{width:48px;height:48px;border-radius:12px;object-fit:contain;background:#ffffff;padding:6px;box-shadow:0 6px 30px rgba(22,163,74,.35)}
     h1{font-size:clamp(22px,3vw,30px);margin:0;letter-spacing:.2px}
     .subtitle{color:var(--muted);font-size:14px}
 
@@ -68,10 +69,10 @@
 <body>
   <div class="wrap">
     <header>
-      <div class="logo" aria-hidden="true"></div>
+      <img class="logo" src="Logo.jpg" alt="Quang Phúc" />
       <div>
         <h1>Máy tính giá bạt HDPE – Quang Phúc</h1>
-        <div class="subtitle">Nhập kích thước công trình và chọn độ dày bạt. Hệ thống tự động ước tính diện tích phủ & đơn giá theo bậc thang.</div>
+        <div class="subtitle">Nhập kích thước công trình, chọn độ dày bạt. Điền SĐT + địa chỉ để nhận báo giá chính xác và phí vận chuyển.</div>
       </div>
     </header>
 
@@ -101,6 +102,16 @@
             <div class="hint">Giá tự đổi theo diện tích. Bảo hành 2–5 năm tùy độ dày.</div>
           </div>
         </div>
+        <div class="row">
+          <div>
+            <label for="phone">Số điện thoại</label>
+            <input id="phone" type="tel" placeholder="VD: 0908 38 72 38" />
+          </div>
+          <div>
+            <label for="address">Địa chỉ giao hàng/thi công</label>
+            <input id="address" type="text" placeholder="Số nhà, xã/phường, huyện, tỉnh" />
+          </div>
+        </div>
         <details style="margin-top:10px">
           <summary style="cursor:pointer;color:var(--accent)">Tùy chọn nâng cao</summary>
           <div class="row" style="margin-top:10px">
@@ -119,6 +130,7 @@
         <div class="actions">
           <button class="btn btn-primary" id="calc">Tính giá</button>
           <button class="btn btn-ghost" id="reset">Nhập lại</button>
+          <button class="btn btn-primary" id="sendQuote" style="background:linear-gradient(135deg,var(--brand),var(--brand2));color:#06210b">Gửi yêu cầu báo giá</button>
         </div>
       </section>
 
@@ -151,7 +163,7 @@
     </div>
 
     <footer>
-      © 2025 Quang Phúc • Hotline: <a href="tel:0908387238" style="color:var(--ink);text-decoration:underline">0908 38 72 38</a>
+      © 2025 Quang Phúc • Hotline: <a href="tel:0908387238" style="color:var(--ink);text-decoration:underline">0908 38 72 38</a> • Email: <a href="mailto:sales@quangphuc.vn" style="color:var(--ink);text-decoration:underline">sales@quangphuc.vn</a>
     </footer>
   </div>
 
@@ -239,6 +251,46 @@
 
     // mặc định: 1.0mm
     $('#thickness').value = 5;
+
+    // Validate số điện thoại (không dùng regex có backslash để an toàn)
+    function cleanDigitsPlus(s){var t='';for(var i=0;i<s.length;i++){var c=s[i];if('0123456789+'.indexOf(c)>=0) t+=c;}return t;}
+    function phoneValid(v){var p=cleanDigitsPlus(v.trim()); if(p.indexOf('+84')===0){return p.length>=11 && p.length<=14;} if(p.indexOf('0')===0){return p.length>=9 && p.length<=12;} return false;}
+
+    function sendQuote(){
+      if($('#area').textContent==='—') calc();
+      var L=$('#length').value, W=$('#width').value, D=$('#depth').value, O=$('#overlap').value, w=$('#waste').value;
+      var thick=PRICE_DATA[parseInt($('#thickness').value,10)].label;
+      var area=$('#area').textContent, tier=$('#tier').textContent, unit=$('#unitPrice').textContent, total=$('#total').textContent;
+      var phone=$('#phone').value.trim();
+      var address=$('#address').value.trim();
+      if(!phoneValid(phone)) { alert('Vui lòng nhập số điện thoại hợp lệ.'); return; }
+      if(!address) { alert('Vui lòng nhập địa chỉ nhận hàng/thi công.'); return; }
+      var msg = 'Yêu cầu báo giá bạt HDPE'+'
+'
+              + 'Khách hàng: ' + phone + '
+'
+              + 'Địa chỉ: ' + address + '
+'
+              + 'Kích thước: ' + L + 'm x ' + W + 'm x sâu ' + D + 'm (chừa mép ' + O + 'm, hao hụt ' + w + '%)' + '
+'
+              + 'Độ dày: ' + thick + '
+'
+              + 'Diện tích phủ: ' + area + ' m2' + '
+'
+              + 'Bậc giá: ' + tier + '
+'
+              + 'Đơn giá: ' + unit + ' đ/m2' + '
+'
+              + 'Thành tiền: ' + total + ' đ';
+      try{ navigator.clipboard.writeText(msg); }catch(e){}
+      var subject = encodeURIComponent('Yêu cầu báo giá bạt HDPE');
+      var body = encodeURIComponent(msg + '
+
+Nguồn: Máy tính giá bạt HDPE - Quang Phúc');
+      window.location.href = 'mailto:sales@quangphuc.vn?subject='+subject+'&body='+body;
+    }
+
+    document.getElementById('sendQuote').addEventListener('click', sendQuote);
   </script>
 </body>
 </html>
