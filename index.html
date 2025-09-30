@@ -311,7 +311,7 @@
                 sendToGoogleSheet({ timestamp: new Date().toISOString(), phone, province, ...dimensions, ...options, ...results });
             }
             async function sendToGoogleSheet(data) {
-                if (!GOOGLE_APPS_SCRIPT_ENDPOINT || GOOGLE_APPS_SCRIPT_ENDPOINT === "URL_GOOGLE_APPS_SCRIPT_CUA_BAN") {
+                if (!GOOGLE_APPS_SCRIPT_ENDPOINT || GOOGLE_APPS_SCRIPT_ENDPOINT === "https://script.google.com/macros/s/AKfycbw4pN3mGPAMFQwuZNDeS-KBq6PhiD2BOwYrZbJt76Qeuj8q8ifVlJfAbOvYcjJ_f9ocLA/exec") {
                     console.warn("Chưa cấu hình Google Apps Script endpoint. Bỏ qua bước gửi dữ liệu."); return;
                 }
                 try {
