@@ -5,607 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Công Cụ Tính Giá Bạt HDPE - Quang Phúc</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* --- Cài đặt biến và Global --- */
         :root {
-            --primary-color: #16a34a; /* Xanh lá */
-            --secondary-color: #f59e0b; /* Vàng cam */
-            --bg-color: #263a29; /* Nền tối xanh rêu */
-            --surface-color: #3e5546; /* Bề mặt component */
-            --text-color: #f0f0f0;
-            --border-color: #5a7462;
-            --font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            --primary-color: #16a34a; --secondary-color: #f59e0b; --bg-color: #263a29; --surface-color: #3e5546; --text-color: #f0f0f0; --border-color: #5a7462; --font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-family);
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding: 1rem;
-        }
-        
-        /* --- Bố cục chính --- */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        header img {
-            max-width: 250px; /* Tăng kích thước logo một chút cho đẹp hơn */
-            height: auto;
-        }
-
-        section {
-            background-color: var(--surface-color);
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        h1, h2 {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-        }
-        
-        /* --- Form Nhập liệu --- */
-        .form-calculator {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-size: 1rem;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.3);
-        }
-
-        details {
-            grid-column: 1 / -1;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 1rem;
-        }
-        
-        summary {
-            font-weight: 500;
-            cursor: pointer;
-            color: var(--secondary-color);
-        }
-        
-        .advanced-options {
-            margin-top: 1rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        /* --- Nhóm nút hành động --- */
-        .button-group {
-            grid-column: 1 / -1;
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-        }
-
-        .btn {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 700;
-            text-align: center;
-            transition: background-color 0.2s, transform 0.1s;
-            flex-grow: 1;
-        }
-        
-        .btn:hover {
-             transform: translateY(-2px);
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #15803d;
-        }
-
-        .btn-secondary {
-            background-color: #6b7280;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #4b5563;
-        }
-
-        .btn-accent {
-            background-color: var(--secondary-color);
-            color: var(--bg-color);
-            font-size: 1.1rem; /* Làm nút to hơn một chút */
-            padding: 1rem 1.5rem;
-        }
-        
-        .btn-accent:hover {
-            background-color: #d97706;
-        }
-        
-        .blinking-arrow {
-            animation: blink 1s infinite;
-            color: #ff4747; /* Màu đỏ tươi nổi bật */
-            font-weight: bold;
-            margin-left: 8px;
-            display: inline-block;
-        }
-
-        @keyframes blink {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.5; }
-        }
-        
-        /* --- Khu vực hiển thị kết quả --- */
-        #results {
-            display: none; /* Ẩn mặc định */
-            text-align: center;
-        }
-
-        .result-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-            text-align: left;
-        }
-
-        .result-item p {
-            font-size: 0.9rem;
-            color: #bdc7c0;
-        }
-        
-        .result-item span {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: white;
-        }
-        
-        .total-price {
-            grid-column: 1 / -1;
-            margin-top: 1rem;
-            text-align: center;
-        }
-        
-        .total-price p {
-             font-size: 1.5rem;
-        }
-
-        .total-price span {
-            font-size: 2.5rem;
-            color: var(--secondary-color);
-            font-weight: 700;
-        }
-
-        /* --- Bảng giá --- */
-        .price-table-container {
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-        th, td {
-            padding: 0.8rem;
-            text-align: center;
-            border: 1px solid var(--border-color);
-        }
-        th {
-            background-color: #4a6353;
-        }
-        tbody tr:nth-child(even) {
-            background-color: #42594a;
-        }
-        .note {
-            margin-top: 1rem;
-            font-style: italic;
-            font-size: 0.9rem;
-            text-align: center;
-            color: #bdc7c0;
-        }
-        
-        /* --- Thông tin khách hàng --- */
-         #customer-info-section .form-group-wrapper {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        /* --- Footer --- */
-        footer {
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--border-color);
-            border-top: 1px solid var(--border-color);
-            padding-top: 1.5rem;
-            margin-top: 1rem;
-        }
-        
-        footer a {
-            color: var(--secondary-color);
-            text-decoration: none;
-            font-weight: bold;
-        }
-        
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* --- Responsive --- */
-        @media (max-width: 600px) {
-            h1 { font-size: 1.5rem; }
-            .btn { width: 100%; }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-family); background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; padding: 1rem; }
+        .container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; }
+        header { text-align: center; padding-top: 1rem; }
+        section { background-color: var(--surface-color); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color); }
+        h1, h2 { color: var(--secondary-color); margin-bottom: 1rem; text-align: center; }
+        h1 { font-size: 1.8rem; }
+        .form-calculator { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+        .form-group { display: flex; flex-direction: column; }
+        label { margin-bottom: 0.5rem; font-weight: 500; }
+        input, select { width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; background-color: var(--bg-color); color: var(--text-color); font-size: 1rem; }
+        input:focus, select:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.3); }
+        details { grid-column: 1 / -1; border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem; }
+        summary { font-weight: 500; cursor: pointer; color: var(--secondary-color); }
+        .advanced-options { margin-top: 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+        .button-group { grid-column: 1 / -1; display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+        .btn { padding: 0.8rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; font-weight: 700; text-align: center; transition: background-color 0.2s, transform 0.1s; flex-grow: 1; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-primary { background-color: var(--primary-color); color: white; }
+        .btn-primary:hover { background-color: #15803d; }
+        .btn-secondary { background-color: #6b7280; color: white; }
+        .btn-secondary:hover { background-color: #4b5563; }
+        .btn-accent { background-color: var(--secondary-color); color: var(--bg-color); font-size: 1.1rem; padding: 1rem 1.5rem; }
+        .btn-accent:hover { background-color: #d97706; }
+        .blinking-arrow { animation: blink 1s infinite; color: #ff4747; font-weight: bold; margin-left: 8px; display: inline-block; }
+        @keyframes blink { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.5; } }
+        #results { display: none; text-align: center; }
+        .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem; text-align: left; }
+        .result-item p { font-size: 0.9rem; color: #bdc7c0; }
+        .result-item span { font-size: 1.2rem; font-weight: 700; color: white; }
+        .total-price { grid-column: 1 / -1; margin-top: 1rem; text-align: center; }
+        .total-price p { font-size: 1.5rem; }
+        .total-price span { font-size: 2.5rem; color: var(--secondary-color); font-weight: 700; }
+        .price-table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 0.8rem; text-align: center; border: 1px solid var(--border-color); }
+        th { background-color: #4a6353; }
+        tbody tr:nth-child(even) { background-color: #42594a; }
+        .note { margin-top: 1rem; font-style: italic; font-size: 0.9rem; text-align: center; color: #bdc7c0; }
+        #customer-info-section .form-group-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
+        footer { text-align: center; font-size: 0.9rem; color: var(--border-color); border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 1rem; }
+        footer a { color: var(--secondary-color); text-decoration: none; font-weight: bold; }
+        footer a:hover { text-decoration: underline; }
+        @media (max-width: 600px) { h1 { font-size: 1.5rem; } .btn { width: 100%; } }
     </style>
 </head>
 <body>
 
     <div class="container">
         <header>
-            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAJYAoADASIAAhEBAxEB/8QAHQAAAQQDAQEAAAAAAAAAAAAAAgMEBQYABwgBCf/EAE4QAAEDAgMFBAcEBgYIAgsAAAEAAgMEEQUSIQYxBxNBUWFxgRQiUpGhFhcjMkKxwRUWUmJygtHwJDNjguEkorLSNTdDc4Ozw9TxN0VTZGf/xAAaAQEAAgMBAAAAAAAAAAAAAAAAAQIDBAUG/8QALxEAAgIBAwIFAwMFAQEAAAAAAAECEQMSITEEE0EFIlFhFCNxgZEyodEjUsHxQv/aAAwDAQACEQMRAD8A9UoQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQhAIQ- // </strong> END OF SCRIPT. I will not add any extra comments.Chắc chắn rồi! Tôi đã cập nhật file HTML với các thông tin mới nhất bạn cung cấp.
-
-1.  **Logo:** Đã được chuyển đổi sang định dạng Base64 và nhúng trực tiếp vào website. Bây giờ file HTML sẽ hiển thị đúng logo của Quang Phúc mà không cần file ảnh đi kèm.
-2.  **Số điện thoại liên hệ (0909 488 306):** Thông tin này đã được cập nhật chính xác ở phần chân trang (footer).
-3.  **Tiêu đề mục 3:** Tiêu đề "3. Gửi yêu cầu báo giá (Bao gồm tiền vận chuyển)" cũng đã được cập nhật chính xác.
-
-Dưới đây là mã nguồn hoàn chỉnh và cuối cùng. Bạn chỉ cần sao chép và sử dụng.
-
-```html
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Công Cụ Tính Giá Bạt HDPE - Quang Phúc</title>
-    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
-    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-    <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap)" rel="stylesheet">
-    <style>
-        /* --- Cài đặt biến và Global --- */
-        :root {
-            --primary-color: #16a34a; /* Xanh lá */
-            --secondary-color: #f59e0b; /* Vàng cam */
-            --bg-color: #263a29; /* Nền tối xanh rêu */
-            --surface-color: #3e5546; /* Bề mặt component */
-            --text-color: #f0f0f0;
-            --border-color: #5a7462;
-            --font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-family);
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding: 1rem;
-        }
-        
-        /* --- Bố cục chính --- */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        header img {
-            max-width: 250px; /* Tăng kích thước logo một chút cho đẹp hơn */
-            height: auto;
-        }
-
-        section {
-            background-color: var(--surface-color);
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        h1, h2 {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-        }
-        
-        /* --- Form Nhập liệu --- */
-        .form-calculator {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-size: 1rem;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.3);
-        }
-
-        details {
-            grid-column: 1 / -1;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 1rem;
-        }
-        
-        summary {
-            font-weight: 500;
-            cursor: pointer;
-            color: var(--secondary-color);
-        }
-        
-        .advanced-options {
-            margin-top: 1rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        /* --- Nhóm nút hành động --- */
-        .button-group {
-            grid-column: 1 / -1;
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-        }
-
-        .btn {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 700;
-            text-align: center;
-            transition: background-color 0.2s, transform 0.1s;
-            flex-grow: 1;
-        }
-        
-        .btn:hover {
-             transform: translateY(-2px);
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #15803d;
-        }
-
-        .btn-secondary {
-            background-color: #6b7280;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #4b5563;
-        }
-
-        .btn-accent {
-            background-color: var(--secondary-color);
-            color: var(--bg-color);
-            font-size: 1.1rem; /* Làm nút to hơn một chút */
-            padding: 1rem 1.5rem;
-        }
-        
-        .btn-accent:hover {
-            background-color: #d97706;
-        }
-        
-        .blinking-arrow {
-            animation: blink 1s infinite;
-            color: #ff4747; /* Màu đỏ tươi nổi bật */
-            font-weight: bold;
-            margin-left: 8px;
-            display: inline-block;
-        }
-
-        @keyframes blink {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.5; }
-        }
-        
-        /* --- Khu vực hiển thị kết quả --- */
-        #results {
-            display: none; /* Ẩn mặc định */
-            text-align: center;
-        }
-
-        .result-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-            text-align: left;
-        }
-
-        .result-item p {
-            font-size: 0.9rem;
-            color: #bdc7c0;
-        }
-        
-        .result-item span {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: white;
-        }
-        
-        .total-price {
-            grid-column: 1 / -1;
-            margin-top: 1rem;
-            text-align: center;
-        }
-        
-        .total-price p {
-             font-size: 1.5rem;
-        }
-
-        .total-price span {
-            font-size: 2.5rem;
-            color: var(--secondary-color);
-            font-weight: 700;
-        }
-
-        /* --- Bảng giá --- */
-        .price-table-container {
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-        th, td {
-            padding: 0.8rem;
-            text-align: center;
-            border: 1px solid var(--border-color);
-        }
-        th {
-            background-color: #4a6353;
-        }
-        tbody tr:nth-child(even) {
-            background-color: #42594a;
-        }
-        .note {
-            margin-top: 1rem;
-            font-style: italic;
-            font-size: 0.9rem;
-            text-align: center;
-            color: #bdc7c0;
-        }
-        
-        /* --- Thông tin khách hàng --- */
-         #customer-info-section .form-group-wrapper {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        /* --- Footer --- */
-        footer {
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--border-color);
-            border-top: 1px solid var(--border-color);
-            padding-top: 1.5rem;
-            margin-top: 1rem;
-        }
-        
-        footer a {
-            color: var(--secondary-color);
-            text-decoration: none;
-            font-weight: bold;
-        }
-        
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* --- Responsive --- */
-        @media (max-width: 600px) {
-            h1 { font-size: 1.5rem; }
-            .btn { width: 100%; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <header>
-            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUSEhIWFRUVFRcVFRcVFxUVFRUVFRUWFxUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OGxAQGy0lICUtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIAn8CfAMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAADBAECBQAGBwj/xABPEAABAwIDBgMDBgkJBwQDAAABAAIRAyEEEjEFQVFhBhMicYGRoTKxwdEUQlJyIzNigpLhFSRDU2OissLw8SZzo7M0c8Mlg9JkdJTi/8QAGwEAAwEBAQEBAAAAAAAAAAAAAAECAwQFBgf/xAA1EQACAQIEAwQJAwUBAAAAAAAAAQIDEQQSITFBBRNRYXEiMoGRobHB8BQjM0LR4fEVUpIG/9oADAMBAAIRAxEBAf8A9FoKxZkZ7fC6381G7NquqMcXbjo/qpdajUeAARb/V1M5iHwO6uWvF9/k20dC+RkIQvQMQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQh- // alt="Logo Quang Phúc">
             <h1>Công Cụ Ước Tính Chi Phí Bạt HDPE</h1>
         </header>
 
@@ -721,7 +176,7 @@ Dưới đây là mã nguồn hoàn chỉnh và cuối cùng. Bạn chỉ cần 
                         </tr>
                     </thead>
                     <tbody id="price-table-body">
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
             <p class="note">Đây là bảng giá ước tính tham khảo, báo giá thực tế có thể thay đổi tùy thuộc vào vị trí, điều kiện thi công và khối lượng cụ thể. Vui lòng liên hệ để có báo giá chính xác nhất.</p>
@@ -735,9 +190,7 @@ Dưới đây là mã nguồn hoàn chỉnh và cuối cùng. Bạn chỉ cần 
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- Cấu hình & Dữ liệu ---
-            const GOOGLE_APPS_SCRIPT_ENDPOINT = "URL_GOOGLE_APPS_SCRIPT_CUA_BAN"; // !!! THAY THẾ URL CỦA BẠN VÀO ĐÂY
-
+            const GOOGLE_APPS_SCRIPT_ENDPOINT = "URL_GOOGLE_APPS_SCRIPT_CUA_BAN";
             const priceData = {
                 '0.2': { warranty: '2 năm', prices: [20000, 18000, 17000, 16000, 15000] },
                 '0.3': { warranty: '3 năm', prices: [26000, 24000, 23000, 22000, 21000] },
@@ -748,15 +201,9 @@ Dưới đây là mã nguồn hoàn chỉnh và cuối cùng. Bạn chỉ cần 
                 '1.5': { warranty: '15 năm',prices: [105000, 102000, 99000, 96000, 93000] },
                 '2.0': { warranty: '20 năm',prices: [140000, 135000, 130000, 125000, 120000] },
             };
-            
             const areaTiers = [80, 500, 1000, 2000, 10000];
             const areaTiersLabels = ["< 80 m²", "< 500 m²", "< 1.000 m²", "< 2.000 m²", "< 10.000 m²"];
-            
-            const provinces = [
-                "An Giang", "Bà Rịa - Vũng Tàu", "Bắc Giang", "Bắc Kạn", "Bạc Liêu", "Bắc Ninh", "Bến Tre", "Bình Định", "Bình Dương", "Bình Phước", "Bình Thuận", "Cà Mau", "Cần Thơ", "Cao Bằng", "Đà Nẵng", "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp", "Gia Lai", "Hà Giang", "Hà Nam", "Hà Nội", "Hà Tĩnh", "Hải Dương", "Hải Phòng", "Hậu Giang", "Hòa Bình", "Hưng Yên", "Khánh Hòa", "Kiên Giang", "Kon Tum", "Lai Châu", "Lâm Đồng", "Lạng Sơn", "Lào Cai", "Long An", "Nam Định", "Nghệ An", "Ninh Bình", "Ninh Thuận", "Phú Thọ", "Phú Yên", "Quảng Bình", "Quảng Nam", "Quảng Ngãi", "Quảng Ninh", "Quảng Trị", "Sóc Trăng", "Sơn La", "Tây Ninh", "Thái Bình", "Thái Nguyên", "Thanh Hóa", "Thừa Thiên Huế", "Tiền Giang", "TP Hồ Chí Minh", "Trà Vinh", "Tuyên Quang", "Vĩnh Long", "Vĩnh Phúc", "Yên Bái"
-            ];
-            
-            // --- Lấy các phần tử DOM ---
+            const provinces = ["An Giang", "Bà Rịa - Vũng Tàu", "Bắc Giang", "Bắc Kạn", "Bạc Liêu", "Bắc Ninh", "Bến Tre", "Bình Định", "Bình Dương", "Bình Phước", "Bình Thuận", "Cà Mau", "Cần Thơ", "Cao Bằng", "Đà Nẵng", "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp", "Gia Lai", "Hà Giang", "Hà Nam", "Hà Nội", "Hà Tĩnh", "Hải Dương", "Hải Phòng", "Hậu Giang", "Hòa Bình", "Hưng Yên", "Khánh Hòa", "Kiên Giang", "Kon Tum", "Lai Châu", "Lâm Đồng", "Lạng Sơn", "Lào Cai", "Long An", "Nam Định", "Nghệ An", "Ninh Bình", "Ninh Thuận", "Phú Thọ", "Phú Yên", "Quảng Bình", "Quảng Nam", "Quảng Ngãi", "Quảng Ninh", "Quảng Trị", "Sóc Trăng", "Sơn La", "Tây Ninh", "Thái Bình", "Thái Nguyên", "Thanh Hóa", "Thừa Thiên Huế", "Tiền Giang", "TP Hồ Chí Minh", "Trà Vinh", "Tuyên Quang", "Vĩnh Long", "Vĩnh Phúc", "Yên Bái"];
             const form = document.getElementById('calculator-form');
             const lengthEl = document.getElementById('length');
             const widthEl = document.getElementById('width');
@@ -766,43 +213,28 @@ Dưới đây là mã nguồn hoàn chỉnh và cuối cùng. Bạn chỉ cần 
             const wastageEl = document.getElementById('wastage');
             const phoneEl = document.getElementById('phone');
             const provinceEl = document.getElementById('province');
-
-            const btnCalc = document.getElementById('btn-calc');
-            const btnReset = document.getElementById('btn-reset');
             const btnSendQuote = document.getElementById('btn-send-quote');
-
             const resultsSection = document.getElementById('results');
             const resultAreaEl = document.getElementById('result-area');
             const resultUnitPriceEl = document.getElementById('result-unit-price');
             const resultTierEl = document.getElementById('result-tier');
             const resultTotalEl = document.getElementById('result-total');
             const priceTableBody = document.getElementById('price-table-body');
-            
             let lastCalculation = null;
-
-            // --- Hàm tiện ích ---
             const formatCurrency = (value) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
-
-            // --- Khởi tạo ---
             function initialize() {
                 populatePriceTable();
                 populateProvinces();
                 resetForm();
             }
-
             function populatePriceTable() {
                 let html = '';
                 for (const thickness in priceData) {
                     const data = priceData[thickness];
-                    html += `<tr>
-                        <td><strong>${thickness} mm</strong></td>
-                        <td>${data.warranty}</td>
-                        ${data.prices.map(p => `<td>${p.toLocaleString('vi-VN')}</td>`).join('')}
-                    </tr>`;
+                    html += `<tr><td><strong>${thickness} mm</strong></td><td>${data.warranty}</td>${data.prices.map(p => `<td>${p.toLocaleString('vi-VN')}</td>`).join('')}</tr>`;
                 }
                 priceTableBody.innerHTML = html;
             }
-
             function populateProvinces() {
                  provinces.forEach(province => {
                     const option = document.createElement('option');
@@ -811,74 +243,38 @@ Dưới đây là mã nguồn hoàn chỉnh và cuối cùng. Bạn chỉ cần 
                     provinceEl.appendChild(option);
                 });
             }
-
             function resetForm() {
                 form.reset();
-                lengthEl.value = 20;
-                widthEl.value = 10;
-                depthEl.value = 3;
-                thicknessEl.value = '1.0';
-                overlapEl.value = 0.3;
-                wastageEl.value = 5;
-                phoneEl.value = '';
-                provinceEl.value = '';
+                lengthEl.value = 20; widthEl.value = 10; depthEl.value = 3;
+                thicknessEl.value = '1.0'; overlapEl.value = 0.3; wastageEl.value = 5;
+                phoneEl.value = ''; provinceEl.value = '';
                 resultsSection.style.display = 'none';
                 lastCalculation = null;
             }
-            
-            // --- Hàm tính toán ---
             function calculatePrice() {
-                // 1. Validating inputs
                 const length = parseFloat(lengthEl.value);
                 const width = parseFloat(widthEl.value);
                 const depth = parseFloat(depthEl.value);
                 const overlap = parseFloat(overlapEl.value);
                 const wastage = parseFloat(wastageEl.value);
                 const thickness = thicknessEl.value;
-
                 if (isNaN(length) || length < 0.1 || isNaN(width) || width < 0.1 || isNaN(depth) || depth < 0.1) {
                     alert('Vui lòng nhập Chiều dài, Chiều rộng và Độ sâu hợp lệ (tối thiểu 0.1m).');
                     return null;
                 }
-
-                // 2. Calculation logic
-                let area = (length + 2 * depth + 2 * overlap) * (width + 2 * depth + 2 * overlap);
-                const totalArea = area * (1 + wastage / 100);
-
-                // 3. Determine price tier
-                let tierIndex = -1;
-                for(let i = 0; i < areaTiers.length; i++) {
-                    if (totalArea < areaTiers[i]) {
-                        tierIndex = i;
-                        break;
-                    }
-                }
-                // Nếu diện tích lớn hơn bậc cao nhất, vẫn dùng giá bậc cao nhất
-                if (tierIndex === -1) {
-                    tierIndex = areaTiers.length - 1;
-                }
-
-                // 4. Get price and calculate total
+                const totalArea = (length + 2 * depth + 2 * overlap) * (width + 2 * depth + 2 * overlap) * (1 + wastage / 100);
+                let tierIndex = areaTiers.findIndex(tier => totalArea < tier);
+                if (tierIndex === -1) tierIndex = areaTiers.length - 1;
                 const unitPrice = priceData[thickness].prices[tierIndex];
                 const totalPrice = totalArea * unitPrice;
-                
                 const calculationResult = {
                     dimensions: { length, width, depth },
                     options: { overlap, wastage, thickness },
-                    results: {
-                        totalArea,
-                        unitPrice,
-                        tierLabel: areaTiersLabels[tierIndex],
-                        totalPrice
-                    }
+                    results: { totalArea, unitPrice, tierLabel: areaTiersLabels[tierIndex], totalPrice }
                 };
-
-                // 5. Display results
                 displayResults(calculationResult);
-                
                 return calculationResult;
             }
-
             function displayResults(calcData) {
                 const { totalArea, unitPrice, tierLabel, totalPrice } = calcData.results;
                 resultAreaEl.textContent = `${totalArea.toFixed(2)} m²`;
@@ -888,116 +284,48 @@ Dưới đây là mã nguồn hoàn chỉnh và cuối cùng. Bạn chỉ cần 
                 resultsSection.style.display = 'block';
                 resultsSection.scrollIntoView({ behavior: 'smooth' });
             }
-            
-            // --- Hàm xử lý gửi yêu cầu ---
             async function sendQuoteRequest() {
-                // 1. Tính toán nếu chưa có
                 if (!lastCalculation) {
                     lastCalculation = calculatePrice();
-                    if (!lastCalculation) return; // Dừng nếu tính toán thất bại
+                    if (!lastCalculation) return;
                 }
-
-                // 2. Validate thông tin khách hàng
                 const phone = phoneEl.value.trim();
                 const province = provinceEl.value;
                 const phoneRegex = /^(0|\+84)\d{9}$/;
-
                 if (!phoneRegex.test(phone)) {
                     alert('Vui lòng nhập số điện thoại hợp lệ (VD: 0912345678 hoặc +84912345678).');
-                    phoneEl.focus();
-                    return;
+                    phoneEl.focus(); return;
                 }
                 if (!province) {
                     alert('Vui lòng chọn Tỉnh / Thành phố.');
-                    provinceEl.focus();
-                    return;
+                    provinceEl.focus(); return;
                 }
-                
-                // 3. Tạo nội dung báo giá
                 const { dimensions, options, results } = lastCalculation;
-                const quoteBody = `
-Kính gửi Bạt HDPE Quang Phúc,
-
-Tôi cần báo giá cho hạng mục sau:
---------------------------------------
-THÔNG SỐ KỸ THUẬT:
-- Kích thước hồ (DxRxS): ${dimensions.length}m x ${dimensions.width}m x ${dimensions.depth}m
-- Độ dày bạt: ${options.thickness} mm
-- Mép neo biên: ${options.overlap} m
-- Hao hụt: ${options.wastage}%
-
-KẾT QUẢ ƯỚC TÍNH SƠ BỘ:
-- Tổng diện tích bạt: ${results.totalArea.toFixed(2)} m²
-- Bậc giá áp dụng: ${results.tierLabel}
-- Đơn giá: ${formatCurrency(results.unitPrice)}/m²
-- Thành tiền (tạm tính): ${formatCurrency(results.totalPrice)}
---------------------------------------
-THÔNG TIN KHÁCH HÀNG:
-- Số điện thoại: ${phone}
-- Tỉnh/Thành: ${province}
-
-Vui lòng liên hệ và tư vấn báo giá chi tiết, đã bao gồm vận chuyển.
-Xin cảm ơn.
-                `.trim();
-
-                // 4. Copy vào clipboard
+                const quoteBody = `Kính gửi Bạt HDPE Quang Phúc,\n\nTôi cần báo giá cho hạng mục sau:\n--------------------------------------\nTHÔNG SỐ KỸ THUẬT:\n- Kích thước hồ (DxRxS): ${dimensions.length}m x ${dimensions.width}m x ${dimensions.depth}m\n- Độ dày bạt: ${options.thickness} mm\n- Mép neo biên: ${options.overlap} m\n- Hao hụt: ${options.wastage}%\n\nKẾT QUẢ ƯỚC TÍNH SƠ BỘ:\n- Tổng diện tích bạt: ${results.totalArea.toFixed(2)} m²\n- Bậc giá áp dụng: ${results.tierLabel}\n- Đơn giá: ${formatCurrency(results.unitPrice)}/m²\n- Thành tiền (tạm tính): ${formatCurrency(results.totalPrice)}\n--------------------------------------\nTHÔNG TIN KHÁCH HÀNG:\n- Số điện thoại: ${phone}\n- Tỉnh/Thành: ${province}\n\nVui lòng liên hệ và tư vấn báo giá chi tiết, đã bao gồm vận chuyển.\nXin cảm ơn.`.trim();
                 try {
                     await navigator.clipboard.writeText(quoteBody);
                     alert('Đã copy nội dung yêu cầu vào clipboard!');
-                } catch (err) {
-                    console.error('Không thể copy: ', err);
-                    alert('Không thể tự động copy, vui lòng copy thủ công trong email.');
-                }
-                
-                // 5. Mở email client
-                const subject = "Yêu cầu báo giá bạt HDPE";
-                const mailtoLink = `mailto:sales@quangphuc.vn?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(quoteBody)}`;
+                } catch (err) { console.error('Không thể copy: ', err); }
+                const mailtoLink = `mailto:sales@quangphuc.vn?subject=${encodeURIComponent("Yêu cầu báo giá bạt HDPE")}&body=${encodeURIComponent(quoteBody)}`;
                 window.open(mailtoLink, '_blank');
-
-                // 6. Gửi dữ liệu tới Google Sheet (bất đồng bộ)
-                sendToGoogleSheet({
-                    timestamp: new Date().toISOString(),
-                    phone,
-                    province,
-                    ...dimensions,
-                    ...options,
-                    ...results
-                });
+                sendToGoogleSheet({ timestamp: new Date().toISOString(), phone, province, ...dimensions, ...options, ...results });
             }
-
             async function sendToGoogleSheet(data) {
                 if (!GOOGLE_APPS_SCRIPT_ENDPOINT || GOOGLE_APPS_SCRIPT_ENDPOINT === "URL_GOOGLE_APPS_SCRIPT_CUA_BAN") {
-                    console.warn("Chưa cấu hình Google Apps Script endpoint. Bỏ qua bước gửi dữ liệu.");
-                    return;
+                    console.warn("Chưa cấu hình Google Apps Script endpoint. Bỏ qua bước gửi dữ liệu."); return;
                 }
-
                 try {
-                    const response = await fetch(GOOGLE_APPS_SCRIPT_ENDPOINT, {
-                        method: 'POST',
-                        mode: 'no-cors', 
-                        cache: 'no-cache',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
+                    await fetch(GOOGLE_APPS_SCRIPT_ENDPOINT, {
+                        method: 'POST', mode: 'no-cors', cache: 'no-cache',
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ data: [data] })
                     });
                     console.log('Đã gửi yêu cầu tới Google Sheet.');
-                } catch (error) {
-                    console.error('Lỗi khi gửi dữ liệu tới Google Sheet:', error);
-                }
+                } catch (error) { console.error('Lỗi khi gửi dữ liệu tới Google Sheet:', error); }
             }
-
-
-            // --- Gán sự kiện ---
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                lastCalculation = calculatePrice();
-            });
-
-            btnReset.addEventListener('click', resetForm);
+            form.addEventListener('submit', (e) => { e.preventDefault(); lastCalculation = calculatePrice(); });
+            document.getElementById('btn-reset').addEventListener('click', resetForm);
             btnSendQuote.addEventListener('click', sendQuoteRequest);
-
-            // --- Chạy khởi tạo ---
             initialize();
         });
     </script>
