@@ -190,8 +190,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- URL KẾT NỐI ĐÃ ĐƯỢC CẬP NHẬT ---
-            const GOOGLE_APPS_SCRIPT_ENDPOINT = "https://script.google.com/macros/s/AKfycbyh037ves7DJ8QfDvCll6mDvRyEcjSMHkxLNKEoSTknAKZFs-yGaTv2RE4H7bRKxPzddg/exec";
+            // --- BƯỚC 6: DÁN URL BẠN ĐÃ SAO CHÉP TỪ APPS SCRIPT VÀO ĐÂY ---
+            const GOOGLE_APPS_SCRIPT_ENDPOINT = "https://script.google.com/macros/s/AKfycbz34IoFIY1VKMT1R82k8y-KzviQXly71_zxikkt7Hbl4RmtBw80hbhXfuz-m3we-C6R/exec"; 
 
             const priceData = {
                 '0.2': { warranty: '2 năm', prices: [20000, 18000, 17000, 16000, 15000] },
@@ -270,19 +270,19 @@
                 const unitPrice = priceData[thickness].prices[tierIndex];
                 const totalPrice = totalArea * unitPrice;
                 const calculationResult = {
-                    dimensions: { length, width, depth },
-                    options: { overlap, wastage, thickness },
-                    results: { totalArea, unitPrice, tierLabel: areaTiersLabels[tierIndex], totalPrice }
+                    dimensions: { chieuDai_m: length, chieuRong_m: width, doSau_m: depth },
+                    options: { mepNeo_m: overlap, haoHut_phantram: wastage, doDay_mm: thickness },
+                    results: { tongDienTich_m2: parseFloat(totalArea.toFixed(2)), donGia_vnd: unitPrice, bacGia: areaTiersLabels[tierIndex], thanhTien_vnd: parseFloat(totalPrice.toFixed(0)) }
                 };
                 displayResults(calculationResult);
                 return calculationResult;
             }
             function displayResults(calcData) {
-                const { totalArea, unitPrice, tierLabel, totalPrice } = calcData.results;
-                resultAreaEl.textContent = `${totalArea.toFixed(2)} m²`;
-                resultUnitPriceEl.textContent = formatCurrency(unitPrice);
-                resultTierEl.textContent = tierLabel;
-                resultTotalEl.textContent = formatCurrency(totalPrice);
+                const { tongDienTich_m2, donGia_vnd, bacGia, thanhTien_vnd } = calcData.results;
+                resultAreaEl.textContent = `${tongDienTich_m2} m²`;
+                resultUnitPriceEl.textContent = formatCurrency(donGia_vnd);
+                resultTierEl.textContent = bacGia;
+                resultTotalEl.textContent = formatCurrency(thanhTien_vnd);
                 resultsSection.style.display = 'block';
                 resultsSection.scrollIntoView({ behavior: 'smooth' });
             }
@@ -303,28 +303,38 @@
                     provinceEl.focus(); return;
                 }
                 const { dimensions, options, results } = lastCalculation;
-                const quoteBody = `Kính gửi Bạt HDPE Quang Phúc,\n\nTôi cần báo giá cho hạng mục sau:\n--------------------------------------\nTHÔNG SỐ KỸ THUẬT:\n- Kích thước hồ (DxRxS): ${dimensions.length}m x ${dimensions.width}m x ${dimensions.depth}m\n- Độ dày bạt: ${options.thickness} mm\n- Mép neo biên: ${options.overlap} m\n- Hao hụt: ${options.wastage}%\n\nKẾT QUẢ ƯỚC TÍNH SƠ BỘ:\n- Tổng diện tích bạt: ${results.totalArea.toFixed(2)} m²\n- Bậc giá áp dụng: ${results.tierLabel}\n- Đơn giá: ${formatCurrency(results.unitPrice)}/m²\n- Thành tiền (tạm tính): ${formatCurrency(results.totalPrice)}\n--------------------------------------\nTHÔNG TIN KHÁCH HÀNG:\n- Số điện thoại: ${phone}\n- Tỉnh/Thành: ${province}\n\nVui lòng liên hệ và tư vấn báo giá chi tiết, đã bao gồm vận chuyển.\nXin cảm ơn.`.trim();
+                const quoteBody = `Kính gửi Bạt HDPE Quang Phúc,\n\nTôi cần báo giá cho hạng mục sau:\n--------------------------------------\nTHÔNG SỐ KỸ THUẬT:\n- Kích thước hồ (DxRxS): ${dimensions.chieuDai_m}m x ${dimensions.chieuRong_m}m x ${dimensions.doSau_m}m\n- Độ dày bạt: ${options.doDay_mm} mm\n- Mép neo biên: ${options.mepNeo_m} m\n- Hao hụt: ${options.haoHut_phantram}%\n\nKẾT QUẢ ƯỚC TÍNH SƠ BỘ:\n- Tổng diện tích bạt: ${results.tongDienTich_m2} m²\n- Bậc giá áp dụng: ${results.bacGia}\n- Đơn giá: ${formatCurrency(results.donGia_vnd)}/m²\n- Thành tiền (tạm tính): ${formatCurrency(results.thanhTien_vnd)}\n--------------------------------------\nTHÔNG TIN KHÁCH HÀNG:\n- Số điện thoại: ${phone}\n- Tỉnh/Thành: ${province}\n\nVui lòng liên hệ và tư vấn báo giá chi tiết, đã bao gồm vận chuyển.\nXin cảm ơn.`.trim();
                 
-                // Gửi dữ liệu tới Google Sheet trước
-                sendToGoogleSheet({ timestamp: new Date().toISOString(), phone, province, ...dimensions, ...options, ...results });
+                // Chuẩn bị dữ liệu để gửi đi
+                const dataToSend = {
+                    ThoiGian: new Date().toLocaleString('vi-VN'),
+                    SoDienThoai: phone,
+                    TinhThanh: province,
+                    ...dimensions,
+                    ...options,
+                    ...results
+                };
+
+                sendToGoogleSheet(dataToSend);
 
                 try {
                     await navigator.clipboard.writeText(quoteBody);
-                    alert('Đã copy nội dung yêu cầu vào clipboard! Dữ liệu của bạn cũng đã được gửi đi.');
+                    alert('Yêu cầu của bạn đã được gửi đi! Nội dung báo giá cũng đã được sao chép để bạn tiện sử dụng.');
                 } catch (err) { console.error('Không thể copy: ', err); }
                 
                 const mailtoLink = `mailto:sales@quangphuc.vn?subject=${encodeURIComponent("Yêu cầu báo giá bạt HDPE")}&body=${encodeURIComponent(quoteBody)}`;
                 window.open(mailtoLink, '_blank');
             }
             async function sendToGoogleSheet(data) {
-                // Dòng kiểm tra này không còn quá cần thiết vì đã điền URL, nhưng để lại cũng không sao
-                if (!GOOGLE_APPS_SCRIPT_ENDPOINT || GOOGLE_APPS_SCRIPT_ENDPOINT === "URL_GOOGLE_APPS_SCRIPT_CUA_BAN") {
+                if (!GOOGLE_APPS_SCRIPT_ENDPOINT || GOOGLE_APPS_SCRIPT_ENDPOINT === "https://script.google.com/macros/s/AKfycbz34IoFIY1VKMT1R82k8y-KzviQXly71_zxikkt7Hbl4RmtBw80hbhXfuz-m3we-C6R/exec") {
                     console.warn("Chưa cấu hình Google Apps Script endpoint. Bỏ qua bước gửi dữ liệu."); 
                     return;
                 }
                 try {
                     await fetch(GOOGLE_APPS_SCRIPT_ENDPOINT, {
-                        method: 'POST', mode: 'no-cors', cache: 'no-cache',
+                        method: 'POST', 
+                        mode: 'no-cors', 
+                        cache: 'no-cache',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ data: [data] })
                     });
