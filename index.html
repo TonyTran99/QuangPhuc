@@ -191,7 +191,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // --- BƯỚC 6: DÁN URL BẠN ĐÃ SAO CHÉP TỪ APPS SCRIPT VÀO ĐÂY ---
-            const GOOGLE_APPS_SCRIPT_ENDPOINT = "https://script.google.com/macros/s/AKfycbz34IoFIY1VKMT1R82k8y-KzviQXly71_zxikkt7Hbl4RmtBw80hbhXfuz-m3we-C6R/exec"; 
+            const GOOGLE_APPS_SCRIPT_ENDPOINT = "https://script.google.com/macros/s/AKfycbzTTx7p2BBQieNr737QM_M_u0px2WZ9tG1KzH9exRpgcvj0jeMrx_YOwTYNw9Pf2hCq/exec"; 
 
             const priceData = {
                 '0.2': { warranty: '2 năm', prices: [20000, 18000, 17000, 16000, 15000] },
@@ -326,7 +326,7 @@
                 window.open(mailtoLink, '_blank');
             }
             async function sendToGoogleSheet(data) {
-                if (!GOOGLE_APPS_SCRIPT_ENDPOINT || GOOGLE_APPS_SCRIPT_ENDPOINT === "https://script.google.com/macros/s/AKfycbz34IoFIY1VKMT1R82k8y-KzviQXly71_zxikkt7Hbl4RmtBw80hbhXfuz-m3we-C6R/exec") {
+                if (!GOOGLE_APPS_SCRIPT_ENDPOINT || GOOGLE_APPS_SCRIPT_ENDPOINT === "DÁN URL CỦA BẠN VÀO ĐÂY") {
                     console.warn("Chưa cấu hình Google Apps Script endpoint. Bỏ qua bước gửi dữ liệu."); 
                     return;
                 }
