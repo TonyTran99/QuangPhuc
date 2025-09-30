@@ -168,10 +168,25 @@
         .btn-accent {
             background-color: var(--secondary-color);
             color: var(--bg-color);
+            font-size: 1.1rem; /* Làm nút to hơn một chút */
+            padding: 1rem 1.5rem;
         }
         
         .btn-accent:hover {
             background-color: #d97706;
+        }
+        
+        .blinking-arrow {
+            animation: blink 1s infinite;
+            color: #ff4747; /* Màu đỏ tươi nổi bật */
+            font-weight: bold;
+            margin-left: 8px;
+            display: inline-block;
+        }
+
+        @keyframes blink {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.5; }
         }
         
         /* --- Khu vực hiển thị kết quả --- */
@@ -244,10 +259,11 @@
         }
         
         /* --- Thông tin khách hàng --- */
-         #customer-info {
+         #customer-info-section .form-group-wrapper {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         /* --- Responsive --- */
@@ -261,7 +277,7 @@
 
     <div class="container">
         <header>
-            <img src="Logo.jpg" alt="Logo Quang Phúc">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjgwIiB2aWV3Qm94PSIwIDAgMjAwIDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMCA0MEMwIDE3LjkwMzYgMTcuOTAzNiAwIDQwIDBIMjAwVjgwSDA0MFY4MEMxNy45MDM2IDgwIDAgNjIuMDk2NCAwIDQwWiIgZmlsbD0iIzE2YTM0YSIvPgo8dGV4dCBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkludGVyLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4IiBmb250LXdlaWdodD0iYm9sZCI+PHRzcGFuIHg9IjMyIiB5PSI0OSI+UVVBTkc8L3RzcGFuPjwvdGV4dD4KPHRleHQgZmlsbD0iI2Y1OTcwYiIgZm9udC1mYW1pbHk9IkludGVyLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4IiBmb250LXdlaWdodD0iYm9sZCI+PHRzcGFuIHg9IjEzMiIgeT0iNDkiPlBIVUM8L3RzcGFuPjwvdGV4dD4KPC9zdmc+Cg==" alt="Logo Quang Phúc">
             <h1>Công Cụ Ước Tính Chi Phí Bạt HDPE</h1>
         </header>
 
@@ -339,8 +355,30 @@
             </div>
         </section>
 
+        <section id="customer-info-section">
+             <h2>3. Gửi yêu cầu báo giá</h2>
+             <p class="note">Vui lòng điền số điện thoại và tỉnh thành để chúng tôi gửi báo giá chính xác (đã bao gồm phí vận chuyển).</p>
+             <div class="form-group-wrapper">
+                 <div class="form-group">
+                    <label for="phone">Số điện thoại</label>
+                    <input type="tel" id="phone" placeholder="VD: 0912345678">
+                </div>
+                <div class="form-group">
+                    <label for="province">Tỉnh / Thành phố</label>
+                    <select id="province">
+                        <option value="">-- Chọn Tỉnh/Thành --</option>
+                    </select>
+                </div>
+             </div>
+             <div class="button-group">
+                 <button type="button" class="btn btn-accent" id="btn-send-quote">
+                     Gửi Yêu Cầu Báo Giá <span class="blinking-arrow">»</span>
+                 </button>
+            </div>
+        </section>
+
         <section id="price-table">
-            <h2>3. Bảng giá tham khảo (VNĐ/m²)</h2>
+            <h2>4. Bảng giá tham khảo (VNĐ/m²)</h2>
             <div class="price-table-container">
                 <table>
                     <thead>
@@ -359,26 +397,6 @@
                 </table>
             </div>
             <p class="note">Đây là bảng giá ước tính tham khảo, báo giá thực tế có thể thay đổi tùy thuộc vào vị trí, điều kiện thi công và khối lượng cụ thể. Vui lòng liên hệ để có báo giá chính xác nhất.</p>
-        </section>
-        
-        <section>
-             <h2>4. Gửi yêu cầu báo giá</h2>
-             <p class="note">Vui lòng điền số điện thoại và tỉnh thành để chúng tôi gửi báo giá chính xác (đã bao gồm phí vận chuyển).</p>
-             <div id="customer-info">
-                 <div class="form-group">
-                    <label for="phone">Số điện thoại</label>
-                    <input type="tel" id="phone" placeholder="VD: 0912345678">
-                </div>
-                <div class="form-group">
-                    <label for="province">Tỉnh / Thành phố</label>
-                    <select id="province">
-                        <option value="">-- Chọn Tỉnh/Thành --</option>
-                    </select>
-                </div>
-             </div>
-             <div class="button-group">
-                 <button type="button" class="btn btn-accent" id="btn-send-quote">Gửi Yêu Cầu Báo Giá</button>
-            </div>
         </section>
         
         <footer>
@@ -627,17 +645,16 @@ Xin cảm ơn.
                 try {
                     const response = await fetch(GOOGLE_APPS_SCRIPT_ENDPOINT, {
                         method: 'POST',
-                        mode: 'no-cors', // Cần thiết khi endpoint không cấu hình CORS
+                        mode: 'no-cors', 
                         cache: 'no-cache',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ data: [data] }) // Gửi dưới dạng object chứa mảng data
+                        body: JSON.stringify({ data: [data] })
                     });
                     console.log('Đã gửi yêu cầu tới Google Sheet.');
                 } catch (error) {
                     console.error('Lỗi khi gửi dữ liệu tới Google Sheet:', error);
-                    // Không cần thông báo lỗi này cho người dùng
                 }
             }
 
