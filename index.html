@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Công Cụ Tính Giá Bạt HDPE - Quang Phúc</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -190,7 +190,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const GOOGLE_APPS_SCRIPT_ENDPOINT = "URL_GOOGLE_APPS_SCRIPT_CUA_BAN";
+            // --- URL KẾT NỐI ĐÃ ĐƯỢC CẬP NHẬT ---
+            const GOOGLE_APPS_SCRIPT_ENDPOINT = "https://script.google.com/macros/s/AKfycbw4pN3mGPAMFQwuZNDeS-KBq6PhiD2BOwYrZbJt76Qeuj8q8ifVlJfAbOvYcjJ_f9ocLA/exec";
+
             const priceData = {
                 '0.2': { warranty: '2 năm', prices: [20000, 18000, 17000, 16000, 15000] },
                 '0.3': { warranty: '3 năm', prices: [26000, 24000, 23000, 22000, 21000] },
@@ -302,17 +304,23 @@
                 }
                 const { dimensions, options, results } = lastCalculation;
                 const quoteBody = `Kính gửi Bạt HDPE Quang Phúc,\n\nTôi cần báo giá cho hạng mục sau:\n--------------------------------------\nTHÔNG SỐ KỸ THUẬT:\n- Kích thước hồ (DxRxS): ${dimensions.length}m x ${dimensions.width}m x ${dimensions.depth}m\n- Độ dày bạt: ${options.thickness} mm\n- Mép neo biên: ${options.overlap} m\n- Hao hụt: ${options.wastage}%\n\nKẾT QUẢ ƯỚC TÍNH SƠ BỘ:\n- Tổng diện tích bạt: ${results.totalArea.toFixed(2)} m²\n- Bậc giá áp dụng: ${results.tierLabel}\n- Đơn giá: ${formatCurrency(results.unitPrice)}/m²\n- Thành tiền (tạm tính): ${formatCurrency(results.totalPrice)}\n--------------------------------------\nTHÔNG TIN KHÁCH HÀNG:\n- Số điện thoại: ${phone}\n- Tỉnh/Thành: ${province}\n\nVui lòng liên hệ và tư vấn báo giá chi tiết, đã bao gồm vận chuyển.\nXin cảm ơn.`.trim();
+                
+                // Gửi dữ liệu tới Google Sheet trước
+                sendToGoogleSheet({ timestamp: new Date().toISOString(), phone, province, ...dimensions, ...options, ...results });
+
                 try {
                     await navigator.clipboard.writeText(quoteBody);
-                    alert('Đã copy nội dung yêu cầu vào clipboard!');
+                    alert('Đã copy nội dung yêu cầu vào clipboard! Dữ liệu của bạn cũng đã được gửi đi.');
                 } catch (err) { console.error('Không thể copy: ', err); }
+                
                 const mailtoLink = `mailto:sales@quangphuc.vn?subject=${encodeURIComponent("Yêu cầu báo giá bạt HDPE")}&body=${encodeURIComponent(quoteBody)}`;
                 window.open(mailtoLink, '_blank');
-                sendToGoogleSheet({ timestamp: new Date().toISOString(), phone, province, ...dimensions, ...options, ...results });
             }
             async function sendToGoogleSheet(data) {
-                if (!GOOGLE_APPS_SCRIPT_ENDPOINT || GOOGLE_APPS_SCRIPT_ENDPOINT === "https://script.google.com/macros/s/AKfycbw4pN3mGPAMFQwuZNDeS-KBq6PhiD2BOwYrZbJt76Qeuj8q8ifVlJfAbOvYcjJ_f9ocLA/exec") {
-                    console.warn("https://script.google.com/macros/s/AKfycbw4pN3mGPAMFQwuZNDeS-KBq6PhiD2BOwYrZbJt76Qeuj8q8ifVlJfAbOvYcjJ_f9ocLA/exec"); return;
+                // Dòng kiểm tra này không còn quá cần thiết vì đã điền URL, nhưng để lại cũng không sao
+                if (!GOOGLE_APPS_SCRIPT_ENDPOINT || GOOGLE_APPS_SCRIPT_ENDPOINT === "URL_GOOGLE_APPS_SCRIPT_CUA_BAN") {
+                    console.warn("Chưa cấu hình Google Apps Script endpoint. Bỏ qua bước gửi dữ liệu."); 
+                    return;
                 }
                 try {
                     await fetch(GOOGLE_APPS_SCRIPT_ENDPOINT, {
@@ -321,7 +329,9 @@
                         body: JSON.stringify({ data: [data] })
                     });
                     console.log('Đã gửi yêu cầu tới Google Sheet.');
-                } catch (error) { console.error('Lỗi khi gửi dữ liệu tới Google Sheet:', error); }
+                } catch (error) { 
+                    console.error('Lỗi khi gửi dữ liệu tới Google Sheet:', error);
+                }
             }
             form.addEventListener('submit', (e) => { e.preventDefault(); lastCalculation = calculatePrice(); });
             document.getElementById('btn-reset').addEventListener('click', resetForm);
