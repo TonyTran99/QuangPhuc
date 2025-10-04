@@ -33,10 +33,23 @@
         .btn-primary:hover { background-color: #15803d; }
         .btn-secondary { background-color: #6b7280; color: white; }
         .btn-secondary:hover { background-color: #4b5563; }
-        .btn-accent { background-color: var(--secondary-color); color: var(--bg-color); font-size: 1.1rem; padding: 1rem 1.5rem; }
+        .btn-accent { 
+            background-color: var(--secondary-color); 
+            color: var(--bg-color); 
+            font-size: 1.2rem; /* Chữ to hơn */
+            padding: 1rem 1.5rem; 
+            text-transform: uppercase; /* IN HOA */
+            animation: pulse 2s infinite; /* Hiệu ứng nhấp nháy tỏa sáng */
+        }
         .btn-accent:hover { background-color: #d97706; }
-        .blinking-arrow { animation: blink 1s infinite; color: #ff4747; font-weight: bold; margin-left: 8px; display: inline-block; }
-        @keyframes blink { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.5; } }
+        
+        /* Hiệu ứng tỏa sáng cho nút */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
+
         #results { display: none; text-align: center; }
         .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem; text-align: left; }
         .result-item p { font-size: 0.9rem; color: #bdc7c0; }
@@ -50,7 +63,19 @@
         th { background-color: #4a6353; }
         tbody tr:nth-child(even) { background-color: #42594a; }
         .note { margin-top: 1rem; font-style: italic; font-size: 0.9rem; text-align: center; color: #bdc7c0; }
+        
+        /* Chỉnh sửa mục 3 */
+        #customer-info-section h2 {
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5); /* Hiệu ứng đổ bóng */
+        }
         #customer-info-section .form-group-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
+        .privacy-note {
+            font-size: 0.8rem;
+            text-align: center;
+            color: #bdc7c0;
+            margin-top: 1.5rem;
+        }
+
         footer { text-align: center; font-size: 0.9rem; color: var(--border-color); border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 1rem; }
         footer a { color: var(--secondary-color); text-decoration: none; font-weight: bold; }
         footer a:hover { text-decoration: underline; }
@@ -139,8 +164,9 @@
         </section>
 
         <section id="customer-info-section">
-             <h2>3. Gửi báo giá chính xác (Bao gồm tiền vận chuyển)</h2>
-             <p class="note">Nhập SĐT và Tỉnh/thành chúng tôi gửi báo giá chính xác nhất, đã bao gồm chi phí vận chuyển.</p>
+             <h2>Gửi báo giá chính xác (Bao gồm tiền vận chuyển)</h2>
+             <p class="note">Nhập SĐT và Tỉnh/thành, chúng tôi gửi báo giá chính xác đã bao gồm chi phí vận chuyển.</p>
+             
              <div class="form-group-wrapper">
                  <div class="form-group">
                     <label for="phone">Số điện thoại</label>
@@ -153,9 +179,12 @@
                     </select>
                 </div>
              </div>
+
+             <p class="privacy-note">Chúng tôi cam kết bảo mật thông tin của bạn.</p>
+             
              <div class="button-group">
                  <button type="button" class="btn btn-accent" id="btn-send-quote">
-                     Gửi Báo Giá và Vận Chuyển <span class="blinking-arrow">»</span>
+                     Gửi Báo Giá Và Vận Chuyển
                  </button>
             </div>
         </section>
@@ -190,7 +219,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- BƯỚC 6: DÁN URL BẠN ĐÃ SAO CHÉP TỪ APPS SCRIPT VÀO ĐÂY ---
             const GOOGLE_APPS_SCRIPT_ENDPOINT = "https://script.google.com/macros/s/AKfycbzTTx7p2BBQieNr737QM_M_u0px2WZ9tG1KzH9exRpgcvj0jeMrx_YOwTYNw9Pf2hCq/exec"; 
 
             const priceData = {
@@ -305,7 +333,6 @@
                 const { dimensions, options, results } = lastCalculation;
                 const quoteBody = `Kính gửi Bạt HDPE Quang Phúc,\n\nTôi cần báo giá cho hạng mục sau:\n--------------------------------------\nTHÔNG SỐ KỸ THUẬT:\n- Kích thước hồ (DxRxS): ${dimensions.chieuDai_m}m x ${dimensions.chieuRong_m}m x ${dimensions.doSau_m}m\n- Độ dày bạt: ${options.doDay_mm} mm\n- Mép neo biên: ${options.mepNeo_m} m\n- Hao hụt: ${options.haoHut_phantram}%\n\nKẾT QUẢ ƯỚC TÍNH SƠ BỘ:\n- Tổng diện tích bạt: ${results.tongDienTich_m2} m²\n- Bậc giá áp dụng: ${results.bacGia}\n- Đơn giá: ${formatCurrency(results.donGia_vnd)}/m²\n- Thành tiền (tạm tính): ${formatCurrency(results.thanhTien_vnd)}\n--------------------------------------\nTHÔNG TIN KHÁCH HÀNG:\n- Số điện thoại: ${phone}\n- Tỉnh/Thành: ${province}\n\nVui lòng liên hệ và tư vấn báo giá chi tiết, đã bao gồm vận chuyển.\nXin cảm ơn.`.trim();
                 
-                // Chuẩn bị dữ liệu để gửi đi
                 const dataToSend = {
                     ThoiGian: new Date().toLocaleString('vi-VN'),
                     SoDienThoai: phone,
