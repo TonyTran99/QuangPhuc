@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* GIỮ NGUYÊN GIAO DIỆN CŨ CỦA BẠN */
         :root {
             --primary-color: #16a34a; --secondary-color: #f59e0b; --bg-color: #263a29; --surface-color: #3e5546; --text-color: #f0f0f0; --border-color: #5a7462; --font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
         }
@@ -36,20 +37,17 @@
         .btn-accent { 
             background-color: var(--secondary-color); 
             color: var(--bg-color); 
-            font-size: 1.2rem; /* Chữ to hơn */
+            font-size: 1.2rem; 
             padding: 1rem 1.5rem; 
-            text-transform: uppercase; /* IN HOA */
-            animation: pulse 2s infinite; /* Hiệu ứng nhấp nháy tỏa sáng */
+            text-transform: uppercase; 
+            animation: pulse 2s infinite; 
         }
         .btn-accent:hover { background-color: #d97706; }
-        
-        /* Hiệu ứng tỏa sáng cho nút */
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
             70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
             100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
         }
-
         #results { display: none; text-align: center; }
         .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem; text-align: left; }
         .result-item p { font-size: 0.9rem; color: #bdc7c0; }
@@ -63,19 +61,9 @@
         th { background-color: #4a6353; }
         tbody tr:nth-child(even) { background-color: #42594a; }
         .note { margin-top: 1rem; font-style: italic; font-size: 0.9rem; text-align: center; color: #bdc7c0; }
-        
-        /* Chỉnh sửa mục 3 */
-        #customer-info-section h2 {
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.5); /* Hiệu ứng đổ bóng */
-        }
+        #customer-info-section h2 { text-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
         #customer-info-section .form-group-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
-        .privacy-note {
-            font-size: 0.8rem;
-            text-align: center;
-            color: #bdc7c0;
-            margin-top: 1.5rem;
-        }
-
+        .privacy-note { font-size: 0.8rem; text-align: center; color: #bdc7c0; margin-top: 1.5rem; }
         footer { text-align: center; font-size: 0.9rem; color: var(--border-color); border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 1rem; }
         footer a { color: var(--secondary-color); text-decoration: none; font-weight: bold; }
         footer a:hover { text-decoration: underline; }
@@ -95,27 +83,25 @@
                 <div class="form-calculator">
                     <div class="form-group">
                         <label for="length">Chiều dài (m)</label>
-                        <input type="number" id="length" min="0.1" step="0.01" required>
+                        <input type="number" id="length" min="0.1" step="0.01" placeholder="Ví dụ: 20" required>
                     </div>
                     <div class="form-group">
                         <label for="width">Chiều rộng (m)</label>
-                        <input type="number" id="width" min="0.1" step="0.01" required>
+                        <input type="number" id="width" min="0.1" step="0.01" placeholder="Ví dụ: 10" required>
                     </div>
                     <div class="form-group">
                         <label for="depth">Độ sâu (m)</label>
-                        <input type="number" id="depth" min="0.1" step="0.01" required>
+                        <input type="number" id="depth" min="0.1" step="0.01" placeholder="Ví dụ: 3" required>
                     </div>
                     <div class="form-group">
                         <label for="thickness">Độ dày bạt (mm)</label>
                         <select id="thickness">
-                            <option value="0.2">0.2 mm</option>
+                            <option value="0.25">0.25 mm</option>
                             <option value="0.3">0.3 mm</option>
                             <option value="0.4">0.4 mm</option>
                             <option value="0.5">0.5 mm</option>
                             <option value="0.75">0.75 mm</option>
                             <option value="1.0" selected>1.0 mm</option>
-                            <option value="1.5">1.5 mm</option>
-                            <option value="2.0">2.0 mm</option>
                         </select>
                     </div>
                     
@@ -124,11 +110,11 @@
                         <div class="advanced-options">
                             <div class="form-group">
                                 <label for="overlap">Mép chồng mí / neo biên (m)</label>
-                                <input type="number" id="overlap" min="0" step="0.1">
+                                <input type="number" id="overlap" min="0" step="0.1" value="0.3">
                             </div>
                             <div class="form-group">
                                 <label for="wastage">Hệ số hao hụt (%)</label>
-                                <input type="number" id="wastage" min="0" step="1">
+                                <input type="number" id="wastage" min="0" step="1" value="5">
                             </div>
                         </div>
                     </details>
@@ -146,20 +132,20 @@
             <div class="result-grid">
                 <div class="result-item">
                     <p>Tổng diện tích bạt cần dùng</p>
-                    <span id="result-area"></span>
+                    <span id="result-area">0 m²</span>
                 </div>
                 <div class="result-item">
                     <p>Đơn giá theo bậc diện tích</p>
-                    <span id="result-unit-price"></span>
+                    <span id="result-unit-price">0 ₫</span>
                 </div>
                 <div class="result-item">
                     <p>Áp dụng bậc giá</p>
-                    <span id="result-tier"></span>
+                    <span id="result-tier">-</span>
                 </div>
             </div>
             <div class="total-price">
                 <p>Thành tiền (ước tính)</p>
-                <span id="result-total"></span>
+                <span id="result-total">0 ₫</span>
             </div>
         </section>
 
@@ -197,18 +183,18 @@
                         <tr>
                             <th>Độ dày</th>
                             <th>Bảo hành</th>
-                            <th>&lt; 80 m²</th>
-                            <th>&lt; 500 m²</th>
-                            <th>&lt; 1.000 m²</th>
-                            <th>&lt; 2.000 m²</th>
-                            <th>&lt; 10.000 m²</th>
+                            <th>100m² - 490m²</th>
+                            <th>500m² - 990m²</th>
+                            <th>≥ 1.000m²</th>
+                            <th>≥ 2.000m²</th>
+                            <th>≥ 10.000m²</th>
                         </tr>
                     </thead>
                     <tbody id="price-table-body">
                     </tbody>
                 </table>
             </div>
-            <p class="note">Đây là bảng giá ước tính tham khảo, báo giá thực tế có thể thay đổi tùy thuộc vào vị trí, điều kiện thi công và khối lượng cụ thể. Vui lòng liên hệ để có báo giá chính xác nhất.</p>
+            <p class="note">Lưu ý: Hàn theo yêu cầu +3.000đ/m².</p>
         </section>
         
         <footer>
@@ -219,20 +205,23 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const GOOGLE_APPS_SCRIPT_ENDPOINT = "https://script.google.com/macros/s/AKfycbzTTx7p2BBQieNr737QM_M_u0px2WZ9tG1KzH9exRpgcvj0jeMrx_YOwTYNw9Pf2hCq/exec"; 
+            // === !!! DÁN URL WEB APP MỚI CỦA BẠN VÀO DÒNG DƯỚI ĐÂY !!! ===
+            const GOOGLE_APPS_SCRIPT_ENDPOINT = "https://script.google.com/macros/s/AKfycbyU_PlNyhwk8sp8nc_JGRFvlHUTUZvjNZAHGwtBCUF8KaHWwm0saA8YuPvAAHN061kNuQ/exec"; 
 
+            // === CẬP NHẬT DỮ LIỆU GIÁ MỚI THEO HÌNH ẢNH ===
             const priceData = {
-                '0.2': { warranty: '2 năm', prices: [20000, 18000, 17000, 16000, 15000] },
-                '0.3': { warranty: '3 năm', prices: [26000, 24000, 23000, 22000, 21000] },
-                '0.4': { warranty: '4 năm', prices: [32000, 30000, 29000, 28000, 27000] },
-                '0.5': { warranty: '5 năm', prices: [38000, 36000, 35000, 34000, 33000] },
-                '0.75':{ warranty: '7 năm', prices: [55000, 53000, 51000, 49000, 47000] },
-                '1.0': { warranty: '10 năm',prices: [70000, 68000, 66000, 64000, 62000] },
-                '1.5': { warranty: '15 năm',prices: [105000, 102000, 99000, 96000, 93000] },
-                '2.0': { warranty: '20 năm',prices: [140000, 135000, 130000, 125000, 120000] },
+                '0.25': { warranty: '2 năm', prices: [13300, 11500, 10200, 9500, 9300] },
+                '0.3':  { warranty: '2 năm', prices: [15900, 13800, 12200, 11400, 11100] },
+                '0.4':  { warranty: '2 năm', prices: [21100, 18300, 16200, 15200, 14800] },
+                '0.5':  { warranty: '3 năm', prices: [26400, 22900, 20200, 19000, 18500] },
+                '0.75': { warranty: '5 năm', prices: [40900, 35400, 31300, 29400, 28600] },
+                '1.0':  { warranty: '5 năm', prices: [54500, 47300, 41800, 39300, 38200] },
             };
-            const areaTiers = [80, 500, 1000, 2000, 10000];
-            const areaTiersLabels = ["< 80 m²", "< 500 m²", "< 1.000 m²", "< 2.000 m²", "< 10.000 m²"];
+            
+            // === CẬP NHẬT MỐC DIỆN TÍCH ===
+            const areaTiers = [500, 1000, 2000, 10000, Infinity];
+            const areaTiersLabels = ["100m² - 490m²", "500m² - 990m²", "≥ 1.000m²", "≥ 2.000m²", "≥ 10.000m²"];
+            
             const provinces = ["An Giang", "Bà Rịa - Vũng Tàu", "Bắc Giang", "Bắc Kạn", "Bạc Liêu", "Bắc Ninh", "Bến Tre", "Bình Định", "Bình Dương", "Bình Phước", "Bình Thuận", "Cà Mau", "Cần Thơ", "Cao Bằng", "Đà Nẵng", "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp", "Gia Lai", "Hà Giang", "Hà Nam", "Hà Nội", "Hà Tĩnh", "Hải Dương", "Hải Phòng", "Hậu Giang", "Hòa Bình", "Hưng Yên", "Khánh Hòa", "Kiên Giang", "Kon Tum", "Lai Châu", "Lâm Đồng", "Lạng Sơn", "Lào Cai", "Long An", "Nam Định", "Nghệ An", "Ninh Bình", "Ninh Thuận", "Phú Thọ", "Phú Yên", "Quảng Bình", "Quảng Nam", "Quảng Ngãi", "Quảng Ninh", "Quảng Trị", "Sóc Trăng", "Sơn La", "Tây Ninh", "Thái Bình", "Thái Nguyên", "Thanh Hóa", "Thừa Thiên Huế", "Tiền Giang", "TP Hồ Chí Minh", "Trà Vinh", "Tuyên Quang", "Vĩnh Long", "Vĩnh Phúc", "Yên Bái"];
             const form = document.getElementById('calculator-form');
             const lengthEl = document.getElementById('length');
@@ -252,11 +241,13 @@
             const priceTableBody = document.getElementById('price-table-body');
             let lastCalculation = null;
             const formatCurrency = (value) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+            
             function initialize() {
                 populatePriceTable();
                 populateProvinces();
                 resetForm();
             }
+            
             function populatePriceTable() {
                 let html = '';
                 for (const thickness in priceData) {
@@ -265,6 +256,7 @@
                 }
                 priceTableBody.innerHTML = html;
             }
+            
             function populateProvinces() {
                  provinces.forEach(province => {
                     const option = document.createElement('option');
@@ -273,14 +265,16 @@
                     provinceEl.appendChild(option);
                 });
             }
+            
             function resetForm() {
                 form.reset();
-                lengthEl.value = 20; widthEl.value = 10; depthEl.value = 3;
+                lengthEl.value = ""; widthEl.value = ""; depthEl.value = "";
                 thicknessEl.value = '1.0'; overlapEl.value = 0.3; wastageEl.value = 5;
                 phoneEl.value = ''; provinceEl.value = '';
                 resultsSection.style.display = 'none';
                 lastCalculation = null;
             }
+            
             function calculatePrice() {
                 const length = parseFloat(lengthEl.value);
                 const width = parseFloat(widthEl.value);
@@ -288,15 +282,22 @@
                 const overlap = parseFloat(overlapEl.value);
                 const wastage = parseFloat(wastageEl.value);
                 const thickness = thicknessEl.value;
+
                 if (isNaN(length) || length < 0.1 || isNaN(width) || width < 0.1 || isNaN(depth) || depth < 0.1) {
                     alert('Vui lòng nhập Chiều dài, Chiều rộng và Độ sâu hợp lệ (tối thiểu 0.1m).');
                     return null;
                 }
+                
+                // Công thức tính diện tích bạt cần dùng
                 const totalArea = (length + 2 * depth + 2 * overlap) * (width + 2 * depth + 2 * overlap) * (1 + wastage / 100);
+                
+                // Logic tìm bậc giá
                 let tierIndex = areaTiers.findIndex(tier => totalArea < tier);
                 if (tierIndex === -1) tierIndex = areaTiers.length - 1;
+                
                 const unitPrice = priceData[thickness].prices[tierIndex];
                 const totalPrice = totalArea * unitPrice;
+                
                 const calculationResult = {
                     dimensions: { chieuDai_m: length, chieuRong_m: width, doSau_m: depth },
                     options: { mepNeo_m: overlap, haoHut_phantram: wastage, doDay_mm: thickness },
@@ -305,6 +306,7 @@
                 displayResults(calculationResult);
                 return calculationResult;
             }
+            
             function displayResults(calcData) {
                 const { tongDienTich_m2, donGia_vnd, bacGia, thanhTien_vnd } = calcData.results;
                 resultAreaEl.textContent = `${tongDienTich_m2} m²`;
@@ -314,6 +316,7 @@
                 resultsSection.style.display = 'block';
                 resultsSection.scrollIntoView({ behavior: 'smooth' });
             }
+            
             async function sendQuoteRequest() {
                 if (!lastCalculation) {
                     lastCalculation = calculatePrice();
@@ -322,6 +325,7 @@
                 const phone = phoneEl.value.trim();
                 const province = provinceEl.value;
                 const phoneRegex = /^(0|\+84)\d{9}$/;
+                
                 if (!phoneRegex.test(phone)) {
                     alert('Vui lòng nhập số điện thoại hợp lệ (VD: 0912345678 hoặc +84912345678).');
                     phoneEl.focus(); return;
@@ -330,9 +334,12 @@
                     alert('Vui lòng chọn Tỉnh / Thành phố.');
                     provinceEl.focus(); return;
                 }
+
                 const { dimensions, options, results } = lastCalculation;
+                // Tạo nội dung gửi mail (giữ nguyên logic gửi email của bạn)
                 const quoteBody = `Kính gửi Bạt HDPE Quang Phúc,\n\nTôi cần báo giá cho hạng mục sau:\n--------------------------------------\nTHÔNG SỐ KỸ THUẬT:\n- Kích thước hồ (DxRxS): ${dimensions.chieuDai_m}m x ${dimensions.chieuRong_m}m x ${dimensions.doSau_m}m\n- Độ dày bạt: ${options.doDay_mm} mm\n- Mép neo biên: ${options.mepNeo_m} m\n- Hao hụt: ${options.haoHut_phantram}%\n\nKẾT QUẢ ƯỚC TÍNH SƠ BỘ:\n- Tổng diện tích bạt: ${results.tongDienTich_m2} m²\n- Bậc giá áp dụng: ${results.bacGia}\n- Đơn giá: ${formatCurrency(results.donGia_vnd)}/m²\n- Thành tiền (tạm tính): ${formatCurrency(results.thanhTien_vnd)}\n--------------------------------------\nTHÔNG TIN KHÁCH HÀNG:\n- Số điện thoại: ${phone}\n- Tỉnh/Thành: ${province}\n\nVui lòng liên hệ và tư vấn báo giá chi tiết, đã bao gồm vận chuyển.\nXin cảm ơn.`.trim();
                 
+                // Dữ liệu gửi về Google Sheet
                 const dataToSend = {
                     ThoiGian: new Date().toLocaleString('vi-VN'),
                     SoDienThoai: phone,
@@ -352,12 +359,15 @@
                 const mailtoLink = `mailto:sales@quangphuc.vn?subject=${encodeURIComponent("Yêu cầu báo giá bạt HDPE")}&body=${encodeURIComponent(quoteBody)}`;
                 window.open(mailtoLink, '_blank');
             }
+            
             async function sendToGoogleSheet(data) {
-                if (!GOOGLE_APPS_SCRIPT_ENDPOINT || GOOGLE_APPS_SCRIPT_ENDPOINT === "DÁN URL CỦA BẠN VÀO ĐÂY") {
-                    console.warn("Chưa cấu hình Google Apps Script endpoint. Bỏ qua bước gửi dữ liệu."); 
+                if (!GOOGLE_APPS_SCRIPT_ENDPOINT || GOOGLE_APPS_SCRIPT_ENDPOINT.includes("DÁN_URL")) {
+                    console.warn("Chưa cấu hình URL Google Script. Dữ liệu sẽ không được gửi."); 
+                    alert("Chưa dán Link Apps Script! Hãy kiểm tra lại code.");
                     return;
                 }
                 try {
+                    // Gửi request tới Apps Script
                     await fetch(GOOGLE_APPS_SCRIPT_ENDPOINT, {
                         method: 'POST', 
                         mode: 'no-cors', 
@@ -370,6 +380,7 @@
                     console.error('Lỗi khi gửi dữ liệu tới Google Sheet:', error);
                 }
             }
+            
             form.addEventListener('submit', (e) => { e.preventDefault(); lastCalculation = calculatePrice(); });
             document.getElementById('btn-reset').addEventListener('click', resetForm);
             btnSendQuote.addEventListener('click', sendQuoteRequest);
